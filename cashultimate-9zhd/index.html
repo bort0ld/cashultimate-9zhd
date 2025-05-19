@@ -1237,51 +1237,46 @@
 
         // Регистрация
         async function handleRegister() {
-            const email = document.getElementById('authEmail').value;
-            const password = document.getElementById('authPassword').value;
-            
-            if(!validateEmail(email)) {
-                alert('Неверный формат email!');
-                return;
-            }
+    const email = document.getElementById('authEmail').value;
+    const password = document.getElementById('authPassword').value;
 
-            if(users.some(u => u.email === email)) {
-                alert('Пользователь уже существует!');
-                return;
-            }
+    if (!validateEmail(email)) {
+        alert('Некорректный email!');
+        return;
+    }
 
-            const confirmationCode = Math.floor(100000 + Math.random() * 900000);
-            
-            Email.send({
-                SecureToken: SMTP_CONFIG.SecureToken,
-                To: email,
-                From: SMTP_CONFIG.From,
-                Subject: 'Код подтверждения CashUltimate',
-                Body: `Ваш код подтверждения: ${confirmationCode}`
-            }).then(message => {
-                if(message === 'OK') {
-                    const userCode = prompt('Код отправлен на вашу почту. Введите его:');
-                    if(userCode == confirmationCode) {
-                        users.push({
-                            email,
-                            password,
-                            confirmed: true,
-                            history: []
-                        });
-                        localStorage.setItem('users', JSON.stringify(users));
-                        currentUser = users.find(u => u.email === email);
-                        updateAuthUI();
-                        closeAuthModal();
-                        alert('Регистрация успешна!');
-                    } else {
-                        alert('Неверный код!');
-                    }
-                }
-            }).catch(err => {
-                alert('Ошибка отправки! Проверьте данные SMTP');
-            });
+    if (users.some(u => u.email === email)) {
+        alert('Пользователь уже существует!');
+        return;
+    }
+
+    const confirmationCode = Math.floor(100000 + Math.random() * 900000);
+    
+    try {
+        await Email.send({
+            SecureToken: SMTP_CONFIG.SecureToken,
+            To: email,
+            From: SMTP_CONFIG.From,
+            Subject: 'Код подтверждения CashUltimate',
+            Body: `Ваш код: ${confirmationCode}`
+        });
+
+        const userCode = prompt('Введите код из письма:');
+        if (userCode == confirmationCode) {
+            users.push({ email, password, confirmed: true, history: [] });
+            localStorage.setItem('users', JSON.stringify(users));
+            currentUser = users.find(u => u.email === email);
+            updateAuthUI();
+            closeAuthModal();
+            alert('Регистрация успешна!');
+        } else {
+            alert('Неверный код!');
         }
-
+    } catch (error) {
+        console.error('Ошибка:', error);
+        alert('Ошибка отправки! Проверьте консоль');
+    }
+}
         // История
         function addToHistory(productName, category) {
             if(currentUser) {
