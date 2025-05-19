@@ -127,6 +127,32 @@
             position: relative;
         }
 
+        .product-hover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+
+        .product-hover span {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         .filter-btn {
             padding: 12px 28px;
             border-radius: 30px;
@@ -296,6 +322,33 @@
             opacity: 1;
         }
 
+        .product-card:hover .product-hover {
+            opacity: 1;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            z-index: 1000;
+            max-width: 500px;
+            width: 90%;
+            border: 2px solid var(--neon-blue);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: var(--neon-blue);
+        }
+
         .product-logo {
             width: 70px;
             height: 70px;
@@ -454,6 +507,42 @@
                 margin-top: 15px;
             }
         }
+
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            z-index: 1000;
+            width: 350px;
+            border: 2px solid var(--neon-blue);
+        }
+        
+        .auth-form input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--neon-blue);
+            border-radius: 5px;
+            color: white;
+        }
+        
+        .auth-form button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            border: none;
+            border-radius: 5px;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -461,6 +550,25 @@
     <video id="video-bg" autoplay muted loop playsinline>
         <source src="https://raw.githubusercontent.com/bort0ld/bort0ld-my-video-host/main/Mixkit-Blurred-Abstract-Cars-Lights-At-Night-With-Bokeh-Effect-30-4K.mp4" type="video/mp4">
     </video>
+
+    <div id="authModal" class="auth-modal">
+        <h3 style="text-align: center; margin-bottom: 20px;">🔐 Авторизация</h3>
+        <form class="auth-form" onsubmit="return false;">
+            <input type="email" id="authEmail" placeholder="Ваш Email" required>
+            <input type="password" id="authPassword" placeholder="Пароль" required>
+            <button onclick="handleAuth()">Войти</button>
+            <button onclick="handleRegister()">Зарегистрироваться</button>
+            <p style="text-align: center; margin-top: 15px; font-size: 0.9em;">
+                Нажимая кнопку, вы соглашаетесь с нашими 
+                <a href="#" style="color: var(--neon-blue);">правилами</a>
+            </p>
+        </form>
+    </div>
+
+    <div class="auth-buttons" style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
+        <button id="loginBtn" class="filter-btn">Войти</button>
+        <button id="registerBtn" class="filter-btn">Регистрация</button>
+    </div>
 
     <div class="container">
         <header>
@@ -476,8 +584,8 @@
             <h1>CashUltimate</h1>
             <p>Премиум-проверка финансовых услуг с эксклюзивными бонусами</p>
             <div class="filter-container">
-                <button class="filter-btn age-btn btn-14 active" data-age="14">14+</button>
                 <button class="filter-btn age-btn btn-18" data-age="18">18+</button>
+                <button class="filter-btn age-btn btn-14 active" data-age="14">14+</button>
                 <button class="filter-btn section-btn debit-btn active" data-section="debit">
                     <i class="fas fa-credit-card"></i>
                     Дебетовые
@@ -500,6 +608,13 @@
                 </button>
             </div>
         </header>
+
+        <div id="productModal" class="modal">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <h3 id="modalTitle"></h3>
+            <p id="modalDescription"></p>
+            <p><strong>Выплата:</strong> <span id="modalPayout"></span></p>
+        </div>
 
         <!-- 14+ Дебетовые -->
         <div id="debit-14" class="products-container active">
@@ -1018,134 +1133,113 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const video = document.getElementById('video-bg');
-            video.play().catch(() => {
-                video.muted = true;
-                video.play();
+        let currentSearchQuery = '';
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let currentUser = null;
+        let emailConfirmationCode = '';
+
+        function sortProducts(container) {
+            const products = Array.from(container.querySelectorAll('.product-card'));
+            products.sort((a, b) => {
+                const priceA = parseInt(a.querySelector('.product-payout').textContent);
+                const priceB = parseInt(b.querySelector('.product-payout').textContent);
+                return priceB - priceA;
             });
+            products.forEach(product => container.querySelector('.products-grid').appendChild(product));
+        }
 
-            // Обработчики для возрастных кнопок
-            document.querySelectorAll('.age-btn').forEach(b => {
-                b.addEventListener('click', function() {
-                    const age = this.dataset.age;
-                    document.querySelectorAll('.age-btn').forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-
-                    if(age === '14') {
-                        document.querySelectorAll('.section-btn').forEach(btn => {
-                            if(btn.dataset.section !== 'debit') {
-                                btn.style.display = 'none';
-                                btn.classList.remove('active');
-                            }
-                        });
-                        document.querySelector('.section-btn[data-section="debit"]').click();
-                    } else {
-                        document.querySelectorAll('.section-btn').forEach(btn => {
-                            btn.style.display = 'flex';
-                            btn.style.opacity = '1';
-                        });
-                    }
-
-                    const activeSection = age === '14' ? 'debit' : 
-                        document.querySelector('.section-btn.active')?.dataset.section || 'debit';
-                    
-                    document.querySelectorAll('.products-container').forEach(el => el.classList.remove('active'));
-                    
-                    if(age === '14') {
-                        document.getElementById('debit-14').classList.add('active');
-                        document.querySelectorAll('.section-btn:not([data-section="debit"])').forEach(btn => {
-                            btn.style.opacity = '0.5';
-                        });
-                    } else {
-                        document.getElementById(`${activeSection}-18`).classList.add('active');
-                        document.querySelectorAll('.section-btn').forEach(btn => {
-                            btn.style.opacity = '1';
-                        });
-                    }
+        function updateProductsDisplay(age, section) {
+            document.querySelectorAll('.products-container').forEach(el => el.classList.remove('active'));
+            if(section === 'all') {
+                document.querySelectorAll(`.products-container`).forEach(el => {
+                    if(el.id.endsWith(`-${age}`)) el.classList.add('active');
                 });
+            } else {
+                document.getElementById(`${section}-${age}`).classList.add('active');
+            }
+            document.querySelectorAll('.products-container.active').forEach(container => {
+                sortProducts(container);
+                if(currentSearchQuery) searchProducts(currentSearchQuery);
             });
+        }
 
-            // Обработчики для кнопок секций
-            document.querySelectorAll('.section-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.section-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    const age = document.querySelector('.age-btn.active').dataset.age;
-                    const section = this.dataset.section;
-                    
-                    document.querySelectorAll('.products-container').forEach(el => el.classList.remove('active'));
-                    document.getElementById(`${section}-${age}`).classList.add('active');
-                });
-            });
-
-            // Обработчики для кнопок продуктов
-            document.querySelectorAll('.action-btn').forEach(btn => {
-                let originalHref = btn.href;
-                
-                btn.addEventListener('mouseenter', () => btn.removeAttribute('href'));
-                btn.addEventListener('mouseleave', () => btn.href = originalHref);
-                
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Анимация
-                    this.style.transform = 'scale(0.95)';
-                    setTimeout(() => this.style.transform = '', 200);
-                    
-                    // Отправка в Telegram
-                    const productName = this.closest('.product-card').querySelector('.product-name').textContent;
-                    fetch(`https://api.telegram.org/bot7450440430:AAF2YaabBn8HXVCNhfNxP3d0zxkEVDVRmNk/sendMessage`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            chat_id: "1105067674",
-                            text: `🔥 Новая заявка: ${productName}`
-                        })
-                    });
-                    
-                    // Открытие ссылки
-                    const newWindow = window.open(originalHref, '_blank');
-                    if(newWindow) newWindow.opener = null;
-                });
-                
-                // Блокировка контекстного меню
-                btn.addEventListener('contextmenu', (e) => e.preventDefault());
-                
-                // Обработка касаний для мобильных
-                btn.addEventListener('touchstart', () => btn.removeAttribute('href'), { passive: true });
-                btn.addEventListener('touchend', () => btn.href = originalHref, { passive: true });
-            });
-
-            // Инициализация
-            document.querySelector('.age-btn.active').click();
-        });
         const searchProducts = debounce((searchText) => {
+            currentSearchQuery = searchText.toLowerCase();
             document.querySelector('.loader').style.display = 'block';
-            
             setTimeout(() => {
-                const activeContainer = document.querySelector('.products-container.active');
-                const cards = activeContainer.querySelectorAll('.product-card');
                 let found = false;
-
-                cards.forEach(card => {
-                    const name = card.querySelector('.product-name').textContent.toLowerCase();
-                    if(name.includes(searchText.toLowerCase())) {
-                        card.style.display = 'block';
-                        found = true;
-                    } else {
-                        card.style.display = 'none';
-                    }
+                document.querySelectorAll('.products-container.active').forEach(container => {
+                    const cards = container.querySelectorAll('.product-card');
+                    cards.forEach(card => {
+                        const name = card.querySelector('.product-name').textContent.toLowerCase();
+                        card.style.display = name.includes(currentSearchQuery) ? 'block' : 'none';
+                        if(name.includes(currentSearchQuery)) found = true;
+                    });
                 });
-
                 document.querySelector('.no-results').style.display = found ? 'none' : 'block';
                 document.querySelector('.loader').style.display = 'none';
             }, 300);
         }, 300);
 
-        document.querySelector('.search-input').addEventListener('input', (e) => {
-            searchProducts(e.target.value);
-        });
+        function handleAuth() {
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+            const user = users.find(u => u.email === email && u.password === password);
+            if(user) {
+                currentUser = user;
+                updateAuthUI();
+                closeAuthModal();
+            } else alert('Неверные данные!');
+        }
+
+        function handleRegister() {
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+            if(users.some(u => u.email === email)) {
+                alert('Пользователь уже существует!');
+                return;
+            }
+            emailConfirmationCode = Math.floor(100000 + Math.random() * 900000);
+            setTimeout(() => {
+                if(confirm(`Код подтверждения: ${emailConfirmationCode}. Введите код:`)) {
+                    const code = prompt('Введите код подтверждения:');
+                    if(code == emailConfirmationCode) {
+                        users.push({email, password, confirmed: true, history: []});
+                        localStorage.setItem('users', JSON.stringify(users));
+                        currentUser = {email};
+                        updateAuthUI();
+                        closeAuthModal();
+                        alert('Регистрация успешна!');
+                    } else alert('Неверный код!');
+                }
+            }, 1000);
+        }
+
+        function updateAuthUI() {
+            const authButtons = document.querySelector('.auth-buttons');
+            if(currentUser) {
+                authButtons.innerHTML = `
+                    <span style="margin-right: 15px;">👤 ${currentUser.email}</span>
+                    <button onclick="logout()" class="filter-btn">Выйти</button>
+                `;
+            } else {
+                authButtons.innerHTML = `
+                    <button id="loginBtn" class="filter-btn">Войти</button>
+                    <button id="registerBtn" class="filter-btn">Регистрация</button>
+                `;
+                document.getElementById('loginBtn').addEventListener('click', () => document.getElementById('authModal').style.display = 'block');
+                document.getElementById('registerBtn').addEventListener('click', () => document.getElementById('authModal').style.display = 'block');
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            updateAuthUI();
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').style.display = 'none';
+        }
 
         function debounce(func, timeout = 300){
             let timer;
@@ -1155,25 +1249,38 @@
             };
         }
 
-        // Дополнительные улучшения
-        document.querySelectorAll('.product-card').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'rotateZ(1deg) scale(1.02)';
+        document.addEventListener('DOMContentLoaded', () => {
+            const video = document.getElementById('video-bg');
+            video.play().catch(() => {
+                video.muted = true;
+                video.play();
             });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'rotateZ(0deg) scale(1)';
-            });
-        });
 
-        // Плавный скролл
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+            document.querySelectorAll('.age-btn').forEach(b => {
+                b.addEventListener('click', function() {
+                    document.querySelectorAll('.age-btn').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    const age = this.dataset.age;
+                    const section = document.querySelector('.section-btn.active').dataset.section;
+                    updateProductsDisplay(age, section);
                 });
             });
+
+            document.querySelectorAll('.section-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.section-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const age = document.querySelector('.age-btn.active').dataset.age;
+                    updateProductsDisplay(age, this.dataset.section);
+                });
+            });
+
+            document.querySelector('.search-input').addEventListener('input', (e) => {
+                searchProducts(e.target.value);
+            });
+
+            updateAuthUI();
+            document.querySelector('.age-btn.active').click();
         });
     </script>
 </body>
