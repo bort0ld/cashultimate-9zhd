@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔥 CashUltimate | Премиум сотрудничество</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://smtpjs.com/v3/smtp.js"></script>
     <style>
         :root {
             --neon-blue: #00f2ff;
@@ -245,35 +244,10 @@
         .section-btn.all-btn {
             background: linear-gradient(45deg, #ff6b6b, #ff3838);
             border-color: transparent;
-            position: relative;
-            right: 0;
-            top: 0;
-            transform: none;
-            margin-left: auto;
-            order: 1;
-            margin-top: 10px;
-        }
-
-        .history-modal {
-            display: none;
-            position: fixed;
+            position: absolute;
+            right: -120px;
             top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 15px;
-            z-index: 1000;
-            width: 90%;
-            max-width: 600px;
-            border: 2px solid var(--neon-blue);
-        }
-
-        .history-item {
-            padding: 10px;
-            margin: 5px 0;
-            background: rgba(255,255,255,0.05);
-            border-radius: 8px;
+            transform: translateY(-50%);
         }
 
         .section-btn.active {
@@ -589,13 +563,6 @@
                 <a href="#" style="color: var(--neon-blue);">правилами</a>
             </p>
         </form>
-    </div>
-
-    <!-- Модальное окно истории -->
-    <div id="historyModal" class="history-modal">
-        <h3>📝 История оформлений</h3>
-        <div id="historyList"></div>
-        <button onclick="closeHistoryModal()" class="action-btn" style="margin-top: 20px;">Закрыть</button>
     </div>
 
     <div class="auth-buttons" style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
@@ -1181,15 +1148,6 @@
             products.forEach(product => container.querySelector('.products-grid').appendChild(product));
         }
 
-        const SMTP_CONFIG = {
-            Host: 'smtp.elasticemail.com',
-            Username: 'worknumone@gmail.com',
-            Password: '891781437498749AnB',
-            SecureToken: '8910',
-            To: worknumone@gmail.com',
-            From: 'worknumone@gmail.com'
-        };
-
         function updateProductsDisplay(age, section) {
             document.querySelectorAll('.products-container').forEach(el => el.classList.remove('active'));
             if(section === 'all') {
@@ -1234,99 +1192,43 @@
             } else alert('Неверные данные!');
         }
 
-        async function handleRegister() {
+        function handleRegister() {
             const email = document.getElementById('authEmail').value;
             const password = document.getElementById('authPassword').value;
-            
-            if(!validateEmail(email)) {
-                alert('Неверный формат email!');
-                return;
-            }
-
             if(users.some(u => u.email === email)) {
                 alert('Пользователь уже существует!');
                 return;
             }
-
-            function validateEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        }
-
-            const confirmationCode = Math.floor(100000 + Math.random() * 900000);
-            
-            // Отправка письма через SMTP.js
-            Email.send({
-                ...SMTP_CONFIG,
-                To: email,
-                Subject: 'Код подтверждения регистрации',
-                Body: `Ваш код подтверждения: ${confirmationCode}`
-            }).then(() => {
-                const userCode = prompt('На ваш email отправлен код подтверждения. Введите его здесь:');
-                if(userCode == confirmationCode) {
-                    users.push({
-                        email,
-                        password,
-                        confirmed: true,
-                        history: []
-                    });
-                    localStorage.setItem('users', JSON.stringify(users));
-                    currentUser = users.find(u => u.email === email);
-                    updateAuthUI();
-                    closeAuthModal();
-                    alert('Регистрация успешно завершена!');
-                } else {
-                    alert('Неверный код подтверждения!');
+            emailConfirmationCode = Math.floor(100000 + Math.random() * 900000);
+            setTimeout(() => {
+                if(confirm(`Код подтверждения: ${emailConfirmationCode}. Введите код:`)) {
+                    const code = prompt('Введите код подтверждения:');
+                    if(code == emailConfirmationCode) {
+                        users.push({email, password, confirmed: true, history: []});
+                        localStorage.setItem('users', JSON.stringify(users));
+                        currentUser = {email};
+                        updateAuthUI();
+                        closeAuthModal();
+                        alert('Регистрация успешна!');
+                    } else alert('Неверный код!');
                 }
-            }).catch(err => {
-                console.error('Ошибка отправки письма:', err);
-                alert('Ошибка отправки кода подтверждения!');
-            });
-        }
-
-        
-
-        function addToHistory(productName, category) {
-            if(currentUser) {
-                currentUser.history.push({
-                    date: new Date().toLocaleString(),
-                    product: productName,
-                    category: category
-                });
-                localStorage.setItem('users', JSON.stringify(users));
-            }
-        }
-
-        function showHistory() {
-            const modal = document.getElementById('historyModal');
-            const list = document.getElementById('historyList');
-            
-            list.innerHTML = currentUser.history.map(item => `
-                <div class="history-item">
-                    <strong>${item.date}</strong><br>
-                    Категория: ${item.category}<br>
-                    Продукт: ${item.product}
-                </div>
-            `).join('');
-            
-            modal.style.display = 'block';
+            }, 1000);
         }
 
         function updateAuthUI() {
             const authButtons = document.querySelector('.auth-buttons');
             if(currentUser) {
                 authButtons.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <span>👤 ${currentUser.email}</span>
-                        <button onclick="showHistory()" class="filter-btn">История</button>
-                        <button onclick="logout()" class="filter-btn">Выйти</button>
-                    </div>
+                    <span style="margin-right: 15px;">👤 ${currentUser.email}</span>
+                    <button onclick="logout()" class="filter-btn">Выйти</button>
                 `;
             } else {
                 authButtons.innerHTML = `
                     <button id="loginBtn" class="filter-btn">Войти</button>
                     <button id="registerBtn" class="filter-btn">Регистрация</button>
                 `;
-                initializeAuthButtons();
+                document.getElementById('loginBtn').addEventListener('click', () => document.getElementById('authModal').style.display = 'block');
+                document.getElementById('registerBtn').addEventListener('click', () => document.getElementById('authModal').style.display = 'block');
             }
         }
 
@@ -1372,25 +1274,6 @@
                     updateProductsDisplay(age, this.dataset.section);
                 });
             });
-
-            // Модифицированные обработчики кнопок
-        document.querySelectorAll('.action-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                if(currentUser) {
-                    const productCard = this.closest('.product-card');
-                    const productName = productCard.querySelector('.product-name').textContent;
-                    const category = document.querySelector('.section-btn.active').dataset.section;
-                    addToHistory(productName, category);
-                }
-                
-                // Остальная логика обработки...
-            });
-        });
-
-            // Закрытие модального окна истории
-        function closeHistoryModal() {
-            document.getElementById('historyModal').style.display = 'none';
-        }
 
             document.querySelector('.search-input').addEventListener('input', (e) => {
                 searchProducts(e.target.value);
