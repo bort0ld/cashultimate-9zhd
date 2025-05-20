@@ -1164,235 +1164,228 @@
     </div>
 
     <script>
-        const SMTP_CONFIG = {
-            SecureToken: "54CCDCD1BA259C14328D17436AB43A78317336E31675F504D1A467510D4A24506C6F1D4C1FF45624E2D2FDAE44EBA9BB",
-            Host: "smtp.elasticemail.com",
-            Username: "worknumone@gmail.com",
-            Password: "08F3B0C9E8B062DC1434F284BE9B517BAEAC",
-            To: 'user_email',
-            From: "worknumone@gmail.com"
-        };
+    let currentSearchQuery = '';
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+    let currentUser = null;
 
-        let currentSearchQuery = '';
-        let users = JSON.parse(localStorage.getItem('users')) || [];
-        let currentUser = null;
-        let emailConfirmationCode = '';
-
-        // Функции фильтрации
-        function sortProducts(container) {
-            const products = Array.from(container.querySelectorAll('.product-card'));
-            products.sort((a, b) => {
-                const priceA = parseInt(a.querySelector('.product-payout').textContent);
-                const priceB = parseInt(b.querySelector('.product-payout').textContent);
-                return priceB - priceA;
-            });
-            products.forEach(product => container.querySelector('.products-grid').appendChild(product));
-        }
-
-        function updateProductsDisplay(age, section) {
-            document.querySelectorAll('.products-container').forEach(el => el.classList.remove('active'));
-            if(section === 'all') {
-                document.querySelectorAll(`.products-container`).forEach(el => {
-                    if(el.id.endsWith(`-${age}`)) el.classList.add('active');
-                });
-            } else {
-                document.getElementById(`${section}-${age}`).classList.add('active');
-            }
-            document.querySelectorAll('.products-container.active').forEach(container => {
-                sortProducts(container);
-                if(currentSearchQuery) searchProducts(currentSearchQuery);
-            });
-        }
-
-        // Поиск
-        const searchProducts = debounce((searchText) => {
-            currentSearchQuery = searchText.toLowerCase();
-            document.querySelector('.loader').style.display = 'block';
-            setTimeout(() => {
-                let found = false;
-                document.querySelectorAll('.products-container.active').forEach(container => {
-                    const cards = container.querySelectorAll('.product-card');
-                    cards.forEach(card => {
-                        const name = card.querySelector('.product-name').textContent.toLowerCase();
-                        card.style.display = name.includes(currentSearchQuery) ? 'block' : 'none';
-                        if(name.includes(currentSearchQuery)) found = true;
-                    });
-                });
-                document.querySelector('.no-results').style.display = found ? 'none' : 'block';
-                document.querySelector('.loader').style.display = 'none';
-            }, 300);
-        }, 300);
-
-        // Авторизация
-        function handleAuth() {
-            const email = document.getElementById('authEmail').value;
-            const password = document.getElementById('authPassword').value;
-            const user = users.find(u => u.email === email && u.password === password);
-            if(user) {
-                currentUser = user;
-                updateAuthUI();
-                closeAuthModal();
-            } else alert('Неверные данные!');
-        }
-
-        // Регистрация
-        async function handleRegister() {
-    const email = document.getElementById('authEmail').value;
-    const password = document.getElementById('authPassword').value;
-
-    if (!validateEmail(email)) {
-        alert('Некорректный email!');
-        return;
-    }
-
-    if (users.some(u => u.email === email)) {
-        alert('Пользователь уже существует!');
-        return;
-    }
-
-    const confirmationCode = Math.floor(100000 + Math.random() * 900000);
-    
-    try {
-        await Email.send({
-            SecureToken: SMTP_CONFIG.SecureToken,
-            To: email,
-            From: SMTP_CONFIG.From,
-            Subject: 'Код подтверждения CashUltimate',
-            Body: `Ваш код: ${confirmationCode}`
+    // Функции для работы с продуктами
+    function sortProducts(container) {
+        const products = Array.from(container.querySelectorAll('.product-card'));
+        products.sort((a, b) => {
+            const priceA = parseInt(a.querySelector('.product-payout').textContent);
+            const priceB = parseInt(b.querySelector('.product-payout').textContent);
+            return priceB - priceA;
         });
+        products.forEach(product => container.querySelector('.products-grid').appendChild(product));
+    }
 
-        const userCode = prompt('Введите код из письма:');
-        if (userCode == confirmationCode) {
-            users.push({ email, password, confirmed: true, history: [] });
-            localStorage.setItem('users', JSON.stringify(users));
-            currentUser = users.find(u => u.email === email);
+    function updateProductsDisplay(age, section) {
+        document.querySelectorAll('.products-container').forEach(el => el.classList.remove('active'));
+        
+        if(section === 'all') {
+            document.querySelectorAll(`.products-container`).forEach(el => {
+                if(el.id.endsWith(`-${age}`)) el.classList.add('active');
+            });
+        } else {
+            document.getElementById(`${section}-${age}`).classList.add('active');
+        }
+        
+        document.querySelectorAll('.products-container.active').forEach(container => {
+            sortProducts(container);
+            if(currentSearchQuery) searchProducts(currentSearchQuery);
+        });
+    }
+
+    // Поиск
+    const searchProducts = debounce((searchText) => {
+        currentSearchQuery = searchText.toLowerCase();
+        document.querySelector('.loader').style.display = 'block';
+        
+        setTimeout(() => {
+            let found = false;
+            document.querySelectorAll('.products-container.active').forEach(container => {
+                const cards = container.querySelectorAll('.product-card');
+                cards.forEach(card => {
+                    const name = card.querySelector('.product-name').textContent.toLowerCase();
+                    card.style.display = name.includes(currentSearchQuery) ? 'block' : 'none';
+                    if(name.includes(currentSearchQuery)) found = true;
+                });
+            });
+            
+            document.querySelector('.no-results').style.display = found ? 'none' : 'block';
+            document.querySelector('.loader').style.display = 'none';
+        }, 300);
+    }, 300);
+
+    // Аутентификация
+    function handleAuth() {
+        const email = document.getElementById('authEmail').value;
+        const password = document.getElementById('authPassword').value;
+        const user = users.find(u => u.email === email && u.password === password);
+        
+        if(user) {
+            currentUser = user;
             updateAuthUI();
             closeAuthModal();
-            alert('Регистрация успешна!');
+            alert('Вход выполнен!');
         } else {
-            alert('Неверный код!');
+            alert('Неверные данные!');
         }
-    } catch (error) {
-        console.error('Ошибка:', error);
-        alert('Ошибка отправки! Проверьте консоль');
     }
-}
-        // История
-        function addToHistory(productName, category) {
-            if(currentUser) {
-                currentUser.history.push({
-                    date: new Date().toLocaleString(),
-                    product: productName,
-                    category: category
-                });
-                localStorage.setItem('users', JSON.stringify(users));
-            }
+
+    function handleRegister() {
+        const email = document.getElementById('authEmail').value;
+        const password = document.getElementById('authPassword').value;
+
+        if(!validateEmail(email)) {
+            alert('Некорректный email!');
+            return;
         }
 
-        function showHistory() {
-            const modal = document.getElementById('historyModal');
-            const list = document.getElementById('historyList');
-            list.innerHTML = currentUser.history.map(item => `
-                <div class="history-item">
-                    <strong>${item.date}</strong><br>
-                    Категория: ${item.category}<br>
-                    Продукт: ${item.product}
-                </div>
-            `).join('');
-            modal.style.display = 'block';
+        if(users.some(u => u.email === email)) {
+            alert('Пользователь уже существует!');
+            return;
         }
 
-        // Вспомогательные функции
-        function validateEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        }
-
-        function updateAuthUI() {
-            const authButtons = document.querySelector('.auth-buttons');
-            if(currentUser) {
-                authButtons.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <span>👤 ${currentUser.email}</span>
-                        <button onclick="showHistory()" class="filter-btn">История</button>
-                        <button onclick="logout()" class="filter-btn">Выйти</button>
-                    </div>
-                `;
-            } else {
-                authButtons.innerHTML = `
-                    <button id="loginBtn" class="filter-btn">Войти</button>
-                    <button id="registerBtn" class="filter-btn">Регистрация</button>
-                `;
-                document.getElementById('loginBtn').onclick = () => document.getElementById('authModal').style.display = 'block';
-                document.getElementById('registerBtn').onclick = () => document.getElementById('authModal').style.display = 'block';
-            }
-        }
-
-        function logout() {
-            currentUser = null;
-            updateAuthUI();
-        }
-
-        function closeAuthModal() {
-            document.getElementById('authModal').style.display = 'none';
-        }
-
-        function closeHistoryModal() {
-            document.getElementById('historyModal').style.display = 'none';
-        }
-
-        function debounce(func, timeout = 300){
-            let timer;
-            return (...args) => {
-                clearTimeout(timer);
-                timer = setTimeout(() => { func.apply(this, args); }, timeout);
-            };
-        }
-
-        // Инициализация
-        document.addEventListener('DOMContentLoaded', () => {
-            const video = document.getElementById('video-bg');
-            video.play().catch(() => {
-                video.muted = true;
-                video.play();
-            });
-
-            document.querySelectorAll('.age-btn').forEach(b => {
-                b.addEventListener('click', function() {
-                    document.querySelectorAll('.age-btn').forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    const age = this.dataset.age;
-                    const section = document.querySelector('.section-btn.active').dataset.section;
-                    updateProductsDisplay(age, section);
-                });
-            });
-
-            document.querySelectorAll('.section-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.section-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    const age = document.querySelector('.age-btn.active').dataset.age;
-                    updateProductsDisplay(age, this.dataset.section);
-                });
-            });
-
-            document.querySelector('.search-input').addEventListener('input', (e) => {
-                searchProducts(e.target.value);
-            });
-
-            document.querySelectorAll('.action-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    if(currentUser) {
-                        const productCard = this.closest('.product-card');
-                        const productName = productCard.querySelector('.product-name').textContent;
-                        const category = document.querySelector('.section-btn.active').dataset.section;
-                        addToHistory(productName, category);
-                    }
-                });
-            });
-
-            updateAuthUI();
-            document.querySelector('.age-btn.active').click();
+        users.push({
+            email,
+            password,
+            history: [],
+            confirmed: true
         });
-    </script>
+        
+        localStorage.setItem('users', JSON.stringify(users));
+        currentUser = users.find(u => u.email === email);
+        updateAuthUI();
+        closeAuthModal();
+        alert('Регистрация успешна!');
+    }
+
+    // История
+    function addToHistory(productName, category) {
+        if(currentUser) {
+            currentUser.history.push({
+                date: new Date().toLocaleString(),
+                product: productName,
+                category: category
+            });
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+    }
+
+    function showHistory() {
+        const modal = document.getElementById('historyModal');
+        const list = document.getElementById('historyList');
+        list.innerHTML = currentUser.history.map(item => `
+            <div class="history-item">
+                <strong>${item.date}</strong><br>
+                Категория: ${item.category}<br>
+                Продукт: ${item.product}
+            </div>
+        `).join('');
+        modal.style.display = 'block';
+    }
+
+    // Вспомогательные функции
+    function validateEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function updateAuthUI() {
+        const authButtons = document.querySelector('.auth-buttons');
+        if(currentUser) {
+            authButtons.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <span>👤 ${currentUser.email}</span>
+                    <button onclick="showHistory()" class="filter-btn">История</button>
+                    <button onclick="logout()" class="filter-btn">Выйти</button>
+                </div>
+            `;
+        } else {
+            authButtons.innerHTML = `
+                <button onclick="document.getElementById('authModal').style.display='block'" 
+                    class="filter-btn">Войти</button>
+                <button onclick="document.getElementById('authModal').style.display='block'" 
+                    class="filter-btn">Регистрация</button>
+            `;
+        }
+    }
+
+    function logout() {
+        currentUser = null;
+        updateAuthUI();
+        alert('Вы вышли из системы!');
+    }
+
+    function closeAuthModal() {
+        document.getElementById('authModal').style.display = 'none';
+    }
+
+    function closeHistoryModal() {
+        document.getElementById('historyModal').style.display = 'none';
+    }
+
+    function closeModal() {
+        document.getElementById('productModal').style.display = 'none';
+    }
+
+    function debounce(func, timeout = 300){
+        let timer;
+        return (...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => { func.apply(this, args); }, timeout);
+        };
+    }
+
+    // Инициализация
+    document.addEventListener('DOMContentLoaded', () => {
+        const video = document.getElementById('video-bg');
+        video.play().catch(() => {
+            video.muted = true;
+            video.play();
+        });
+
+        // Обработчики фильтров
+        document.querySelectorAll('.age-btn').forEach(b => {
+            b.addEventListener('click', function() {
+                document.querySelectorAll('.age-btn').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                const age = this.dataset.age;
+                const section = document.querySelector('.section-btn.active').dataset.section;
+                updateProductsDisplay(age, section);
+            });
+        });
+
+        document.querySelectorAll('.section-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.section-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const age = document.querySelector('.age-btn.active').dataset.age;
+                updateProductsDisplay(age, this.dataset.section);
+            });
+        });
+
+        // Поиск
+        document.querySelector('.search-input').addEventListener('input', (e) => {
+            searchProducts(e.target.value);
+        });
+
+        // История заявок
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if(currentUser) {
+                    const productCard = this.closest('.product-card');
+                    const productName = productCard.querySelector('.product-name').textContent;
+                    const category = document.querySelector('.section-btn.active').dataset.section;
+                    addToHistory(productName, category);
+                }
+            });
+        });
+
+        // Инициализация интерфейса
+        updateAuthUI();
+        document.querySelector('.age-btn.active').click();
+    });
+</script>
 </body>
 </html>
