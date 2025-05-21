@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔥 CashUltimate | Премиум сотрудничество</title>
+    <title>🔥 CashUltimate | Премиум партнерка</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://smtpjs.com/v3/smtp.js"></script>
     <style>
         :root {
             --neon-blue: #00f2ff;
@@ -61,16 +60,10 @@
             z-index: 2;
         }
 
-        @keyframes slideIn {
-            0% { opacity: 0; transform: translateY(50px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
         header {
             text-align: center;
             margin-bottom: 40px;
             padding: 40px 0;
-            animation: slideIn 1s ease-out;
         }
 
         .avatar-container {
@@ -89,28 +82,6 @@
             border: 3px solid var(--neon-blue);
             box-shadow: 0 0 30px var(--neon-blue);
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            filter: drop-shadow(0 0 10px var(--neon-blue));
-        }
-
-        .avatar:hover {
-            transform: rotateY(20deg) scale(1.05);
-            filter: drop-shadow(0 0 20px var(--neon-purple));
-        }
-
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 2px;
-            text-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
-            animation: textGlow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes textGlow {
-            0% { text-shadow: 0 0 10px rgba(0, 242, 255, 0.3); }
-            100% { text-shadow: 0 0 25px rgba(161, 98, 232, 0.6); }
         }
 
         .filter-container {
@@ -125,33 +96,6 @@
             border-radius: 20px;
             margin: 0 auto 30px;
             max-width: fit-content;
-            position: relative;
-        }
-
-        .product-hover {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s;
-            cursor: pointer;
-            border-radius: 20px;
-        }
-
-        .product-hover span {
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-align: center;
-            padding: 15px;
-            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
         .filter-btn {
@@ -159,123 +103,12 @@
             border-radius: 30px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s;
             border: 2px solid;
             background: transparent;
             font-size: 0.95rem;
             position: relative;
             overflow: hidden;
-        }
-
-        .filter-btn::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            transform: rotate(45deg);
-            transition: all 0.5s;
-        }
-
-        .filter-btn:hover::before {
-            animation: btnShine 1.5s;
-        }
-
-        @keyframes btnShine {
-            0% { left: -100%; }
-            100% { left: 200%; }
-        }
-
-        .age-btn.active {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0, 242, 255, 0.4);
-        }
-
-        .btn-14 {
-            border-color: #00ff88;
-            color: #00ff88;
-        }
-
-        .btn-18 {
-            border-color: #ff0066;
-            color: #ff0066;
-        }
-
-        .section-btn {
-            padding: 12px 20px;
-            border-radius: 8px;
-            border: 2px solid;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 600;
-            backdrop-filter: blur(5px);
-            line-height: 1.2;
-        }
-
-        .section-btn.debit-btn {
-            background: linear-gradient(45deg, var(--neon-blue), #00c4ff);
-            border-color: transparent;
-            color: black;
-            align-items: center;
-            padding-top: 13px;
-        }
-
-        .section-btn.credit-btn {
-            background: linear-gradient(45deg, #a162e8, #7d3cff);
-            border-color: transparent;
-        }
-
-        .section-btn.mfo-btn {
-            background: linear-gradient(45deg, #ff0066, #ff0080);
-            border-color: transparent;
-        }
-
-        .section-btn.rko-btn {
-            background: linear-gradient(45deg, #00cc88, #00ffaa);
-            border-color: transparent;
-            color: black;
-        }
-
-        .section-btn.all-btn {
-            background: linear-gradient(45deg, #ff6b6b, #ff3838);
-            border-color: transparent;
-            position: relative;
-            right: 0;
-            top: 0;
-            transform: none;
-            margin-left: auto;
-            order: 1;
-            margin-top: 10px;
-        }
-
-        .section-btn.active {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 242, 255, 0.5);
-            filter: brightness(1.1);
-        }
-
-        .products-container {
-            display: none;
-            animation: fadeIn 0.5s ease;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            height: 0;
-            overflow: hidden;
-        }
-
-        .products-container.active {
-            display: block;
-            opacity: 1;
-            visibility: visible;
-            height: auto;
-            animation: fadeIn 0.5s ease;
         }
 
         .products-grid {
@@ -289,45 +122,41 @@
             border-radius: 20px;
             padding: 25px;
             border: 1px solid #2a2a3a;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(8px);
+            transition: all 0.3s;
             position: relative;
             overflow: hidden;
-            transform-style: preserve-3d;
         }
 
-        .product-card::before,
-        .product-card::after {
-            content: '';
+        .product-hover {
             position: absolute;
-            border-radius: inherit;
-            pointer-events: none;
-        }
-
-        .product-card::before {
-            inset: -1px;
-            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple), transparent 60%);
-            z-index: -1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: 0.3s;
+            cursor: pointer;
         }
 
-        .product-card::after {
-            inset: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(0, 242, 255, 0.1), transparent 60%);
+        .notification-bell {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
         }
 
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 242, 255, 0.2);
-        }
-
-        .product-card:hover::before {
-            opacity: 1;
-        }
-
-        .product-card:hover .product-hover {
-            opacity: 1;
+        .referral-section {
+            position: fixed;
+            top: 20px;
+            right: 200px;
+            display: flex;
+            gap: 10px;
         }
 
         .modal {
@@ -342,232 +171,13 @@
             z-index: 1000;
             max-width: 500px;
             width: 90%;
-            border: 2px solid var(--neon-blue);
         }
 
-        .modal-close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            color: var(--neon-blue);
-        }
-
-        .product-logo {
-            width: 70px;
-            height: 70px;
-            border-radius: 15px;
-            object-fit: contain;
-            background: white;
-            padding: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .product-card:hover .product-logo {
-            transform: rotate(15deg) scale(1.1);
-        }
-
-        .product-name {
-            font-size: 1.3rem;
-            margin-bottom: 12px;
-            font-weight: 700;
-            background: linear-gradient(45deg, #fff, var(--neon-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .product-payout {
-            color: var(--neon-blue);
-            font-weight: 800;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            text-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
-        }
-
-        .product-description {
-            color: #a0a0a0;
-            font-size: 0.95rem;
-            margin-bottom: 25px;
-            min-height: 60px;
-        }
-
-        .action-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 14px;
-            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
-            color: black;
-            border-radius: 15px;
-            font-weight: 700;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-decoration: none;
-            border: none;
-            width: 100%;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-        }
-
-        .action-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 200%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: 0.5s;
-        }
-
-        .action-btn:hover::before {
-            left: 100%;
-        }
-
-        .action-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 20px rgba(0, 242, 255, 0.4);
-        }
-
-        .search-container {
-            max-width: 600px;
-            margin: 0 auto 40px;
-            position: relative;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 18px 25px;
-            border-radius: 50px;
-            background: rgba(255,255,255,0.1);
-            border: 2px solid var(--neon-blue);
-            color: white;
-            font-size: 1.1rem;
-            padding-right: 60px;
-            transition: all 0.3s ease;
-        }
-
-        .search-input:focus {
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.3);
-            outline: none;
-        }
-
-        .search-icon {
-            position: absolute;
-            right: 25px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--neon-blue);
-            font-size: 1.3rem;
-        }
-
-        .no-results {
-            text-align: center;
-            font-size: 1.2rem;
-            color: var(--neon-pink);
-            display: none;
-        }
-
-        .loader {
-            display: none;
-            border: 4px solid rgba(255,255,255,0.1);
-            border-top: 4px solid var(--neon-blue);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 30px auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.2rem;
-            }
-            .avatar-container {
-                width: 160px;
-                height: 160px;
-            }
-            .filter-btn {
-                padding: 10px 20px;
-                font-size: 0.9rem;
-            }
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-            .section-btn.all-btn {
-                position: static;
-                transform: none;
-                margin-top: 15px;
-            }
-        }
-
-        .auth-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .link-generator {
+            margin-top: 30px;
+            padding: 20px;
             background: var(--card-bg);
-            padding: 2rem;
             border-radius: 15px;
-            z-index: 1000;
-            width: 350px;
-            border: 2px solid var(--neon-blue);
-        }
-        
-        .auth-form input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid var(--neon-blue);
-            border-radius: 5px;
-            color: white;
-        }
-        
-        .auth-form button {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
-            border: none;
-            border-radius: 5px;
-            color: black;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .history-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 15px;
-            z-index: 1000;
-            width: 90%;
-            max-width: 600px;
-            border: 2px solid var(--neon-blue);
-        }
-
-        .history-item {
-            padding: 10px;
-            margin: 5px 0;
-            background: rgba(255,255,255,0.05);
-            border-radius: 8px;
         }
     </style>
 </head>
@@ -577,77 +187,68 @@
         <source src="https://raw.githubusercontent.com/bort0ld/bort0ld-my-video-host/main/Mixkit-Blurred-Abstract-Cars-Lights-At-Night-With-Bokeh-Effect-30-4K.mp4" type="video/mp4">
     </video>
 
-    <div id="authModal" class="auth-modal">
-        <h3 style="text-align: center; margin-bottom: 20px;">🔐 Авторизация</h3>
-        <form class="auth-form" onsubmit="return false;">
-            <input type="email" id="authEmail" placeholder="Ваш Email" required>
-            <input type="password" id="authPassword" placeholder="Пароль" required>
-            <button onclick="handleAuth()">Войти</button>
-            <button onclick="handleRegister()">Зарегистрироваться</button>
-            <p style="text-align: center; margin-top: 15px; font-size: 0.9em;">
-                Нажимая кнопку, вы соглашаетесь с нашими 
-                <a href="#" style="color: var(--neon-blue);">правилами</a>
-            </p>
-        </form>
+    <div class="notification-bell" onclick="showNotifications()">
+        <i class="fas fa-bell"></i>
+        <span id="notification-count" class="notification-counter">0</span>
     </div>
 
-    <div id="historyModal" class="history-modal">
-        <h3>📝 История оформлений</h3>
-        <div id="historyList"></div>
-        <button onclick="closeHistoryModal()" class="action-btn" style="margin-top: 20px;">Закрыть</button>
+    <div class="referral-section">
+        <button class="filter-btn" onclick="showReferralModal()">Реферальная система</button>
+        <button class="filter-btn" onclick="generateLink()">Генератор ссылок</button>
     </div>
 
-    <div class="auth-buttons" style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
-        <button id="loginBtn" class="filter-btn">Войти</button>
-        <button id="registerBtn" class="filter-btn">Регистрация</button>
+    <div id="authModal" class="modal">
+        <h3>🔐 Авторизация</h3>
+        <input type="email" id="authEmail" placeholder="Email">
+        <input type="password" id="authPassword" placeholder="Пароль">
+        <button onclick="handleAuth()">Войти</button>
+        <button onclick="handleRegister()">Регистрация</button>
+    </div>
+
+    <div id="referralModal" class="modal">
+        <h3>👥 Реферальная система</h3>
+        <p>Ваша реферальная ссылка: <span id="referralLink"></span></p>
+        <p>Приглашено пользователей: <span id="referralCount">0</span></p>
+        <p>Заработано бонусов: <span id="referralBonus">0 ₽</span></p>
+    </div>
+
+    <div id="linkGenerator" class="modal">
+        <h3>🔗 Генератор ссылок</h3>
+        <input type="text" id="offerUrl" placeholder="URL оффера">
+        <button onclick="generateTrackedLink()">Создать</button>
+        <div id="generatedLink"></div>
     </div>
 
     <div class="container">
         <header>
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="🔍 Поиск по продуктам...">
-                <i class="fas fa-search search-icon"></i>
-                <div class="no-results">Ничего не найдено 😞</div>
-                <div class="loader"></div>
-            </div>
             <div class="avatar-container">
                 <img src="https://2x2.su/upload/iblock/ad4/4z93bfpkkerjxqx7y15pv4y1xkv2hlnc.jpg" alt="CashUltimate" class="avatar">
             </div>
-            <h1>CashUltimate</h1>
-            <p>Премиум-проверка финансовых услуг с эксклюзивными бонусами</p>
+            <h1>CashUltimate PRO</h1>
             <div class="filter-container">
-                <button class="filter-btn age-btn btn-18" data-age="18">18+</button>
-                <button class="filter-btn age-btn btn-14 active" data-age="14">14+</button>
-                <button class="filter-btn section-btn debit-btn active" data-section="debit">
-                    <i class="fas fa-credit-card"></i>
-                    Дебетовые
-                </button>
-                <button class="filter-btn section-btn credit-btn" data-section="credit">
-                    <i class="fas fa-hand-holding-usd"></i>
-                    Кредитные карты
-                </button>
-                <button class="filter-btn section-btn mfo-btn" data-section="mfo">
-                    <i class="fas fa-coins"></i>
-                    Микрозаймы
-                </button>
-                <button class="filter-btn section-btn rko-btn" data-section="rko">
-                    <i class="fas fa-building"></i>
-                    РКО
-                </button>
-                <button class="filter-btn section-btn all-btn" data-section="all">
-                    <i class="fas fa-layer-group"></i>
-                    Все товары
-                </button>
+                <button class="filter-btn" data-section="debit">Дебетовые</button>
+                <button class="filter-btn" data-section="credit">Кредитные</button>
+                <button class="filter-btn" data-section="mfo">Микрозаймы</button>
+                <button class="filter-btn" data-section="all">Все</button>
             </div>
         </header>
 
-        <div id="productModal" class="modal">
-            <span class="modal-close" onclick="closeModal()">&times;</span>
-            <h3 id="modalTitle"></h3>
-            <p id="modalDescription"></p>
-            <p><strong>Выплата:</strong> <span id="modalPayout"></span></p>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-hover">Нажми для деталей</div>
+                <img src="https://my-cache.s3-cdn.com/offers/thumbs/3/102931.png" class="product-logo">
+                <h3>Т-Банк</h3>
+                <div class="product-payout">500 ₽</div>
+                <p>Дебетовая карта с кэшбэком</p>
+                <button class="action-btn">Оформить</button>
+            </div>
         </div>
 
+        <div class="link-generator">
+            <h3>🛠️ Генератор ссылок</h3>
+            <div class="link-output" id="linkOutput"></div>
+        </div>
+    </div>
         <!-- Секции продуктов -->
         <div id="debit-14" class="products-container active">
             <div class="products-grid">
@@ -1164,228 +765,116 @@
     </div>
 
     <script>
-    let currentSearchQuery = '';
-    let users = JSON.parse(localStorage.getItem('users')) || [];
-    let currentUser = null;
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let currentUser = null;
+        let notifications = [];
+        let referralCodes = {};
 
-    // Функции для работы с продуктами
-    function sortProducts(container) {
-        const products = Array.from(container.querySelectorAll('.product-card'));
-        products.sort((a, b) => {
-            const priceA = parseInt(a.querySelector('.product-payout').textContent);
-            const priceB = parseInt(b.querySelector('.product-payout').textContent);
-            return priceB - priceA;
-        });
-        products.forEach(product => container.querySelector('.products-grid').appendChild(product));
-    }
-
-    function updateProductsDisplay(age, section) {
-        document.querySelectorAll('.products-container').forEach(el => el.classList.remove('active'));
-        
-        if(section === 'all') {
-            document.querySelectorAll(`.products-container`).forEach(el => {
-                if(el.id.endsWith(`-${age}`)) el.classList.add('active');
-            });
-        } else {
-            document.getElementById(`${section}-${age}`).classList.add('active');
+        function handleAuth() {
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if(user) {
+                currentUser = user;
+                updateUI();
+                closeModal('authModal');
+                addNotification('Успешный вход в систему');
+            } else {
+                alert('Ошибка авторизации');
+            }
         }
-        
-        document.querySelectorAll('.products-container.active').forEach(container => {
-            sortProducts(container);
-            if(currentSearchQuery) searchProducts(currentSearchQuery);
-        });
-    }
 
-    // Поиск
-    const searchProducts = debounce((searchText) => {
-        currentSearchQuery = searchText.toLowerCase();
-        document.querySelector('.loader').style.display = 'block';
-        
-        setTimeout(() => {
-            let found = false;
-            document.querySelectorAll('.products-container.active').forEach(container => {
-                const cards = container.querySelectorAll('.product-card');
-                cards.forEach(card => {
-                    const name = card.querySelector('.product-name').textContent.toLowerCase();
-                    card.style.display = name.includes(currentSearchQuery) ? 'block' : 'none';
-                    if(name.includes(currentSearchQuery)) found = true;
-                });
+        function handleRegister() {
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+            const referralCode = generateReferralCode();
+            
+            users.push({
+                email,
+                password,
+                referrals: 0,
+                bonus: 0,
+                referralCode,
+                history: []
             });
             
-            document.querySelector('.no-results').style.display = found ? 'none' : 'block';
-            document.querySelector('.loader').style.display = 'none';
-        }, 300);
-    }, 300);
-
-    // Аутентификация
-    function handleAuth() {
-        const email = document.getElementById('authEmail').value;
-        const password = document.getElementById('authPassword').value;
-        const user = users.find(u => u.email === email && u.password === password);
-        
-        if(user) {
-            currentUser = user;
-            updateAuthUI();
-            closeAuthModal();
-            alert('Вход выполнен!');
-        } else {
-            alert('Неверные данные!');
-        }
-    }
-
-    function handleRegister() {
-        const email = document.getElementById('authEmail').value;
-        const password = document.getElementById('authPassword').value;
-
-        if(!validateEmail(email)) {
-            alert('Некорректный email!');
-            return;
-        }
-
-        if(users.some(u => u.email === email)) {
-            alert('Пользователь уже существует!');
-            return;
-        }
-
-        users.push({
-            email,
-            password,
-            history: [],
-            confirmed: true
-        });
-        
-        localStorage.setItem('users', JSON.stringify(users));
-        currentUser = users.find(u => u.email === email);
-        updateAuthUI();
-        closeAuthModal();
-        alert('Регистрация успешна!');
-    }
-
-    // История
-    function addToHistory(productName, category) {
-        if(currentUser) {
-            currentUser.history.push({
-                date: new Date().toLocaleString(),
-                product: productName,
-                category: category
-            });
             localStorage.setItem('users', JSON.stringify(users));
+            currentUser = users[users.length - 1];
+            updateUI();
+            addNotification('Регистрация успешна');
         }
-    }
 
-    function showHistory() {
-        const modal = document.getElementById('historyModal');
-        const list = document.getElementById('historyList');
-        list.innerHTML = currentUser.history.map(item => `
-            <div class="history-item">
-                <strong>${item.date}</strong><br>
-                Категория: ${item.category}<br>
-                Продукт: ${item.product}
-            </div>
-        `).join('');
-        modal.style.display = 'block';
-    }
+        function generateReferralCode() {
+            return Math.random().toString(36).substr(2, 9);
+        }
 
-    // Вспомогательные функции
-    function validateEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
+        function showReferralModal() {
+            if(!currentUser) return alert('Требуется авторизация');
+            document.getElementById('referralLink').textContent = `https://cashultimate.ru/ref/${currentUser.referralCode}`;
+            document.getElementById('referralCount').textContent = currentUser.referrals;
+            document.getElementById('referralBonus').textContent = `${currentUser.bonus} ₽`;
+            document.getElementById('referralModal').style.display = 'block';
+        }
 
-    function updateAuthUI() {
-        const authButtons = document.querySelector('.auth-buttons');
-        if(currentUser) {
-            authButtons.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <span>👤 ${currentUser.email}</span>
-                    <button onclick="showHistory()" class="filter-btn">История</button>
-                    <button onclick="logout()" class="filter-btn">Выйти</button>
-                </div>
-            `;
-        } else {
-            authButtons.innerHTML = `
-                <button onclick="document.getElementById('authModal').style.display='block'" 
-                    class="filter-btn">Войти</button>
-                <button onclick="document.getElementById('authModal').style.display='block'" 
-                    class="filter-btn">Регистрация</button>
+        function generateTrackedLink() {
+            const baseUrl = document.getElementById('offerUrl').value;
+            const trackingCode = `?ref=${currentUser.referralCode}`;
+            document.getElementById('generatedLink').innerHTML = `
+                <p>Ваша ссылка: ${baseUrl + trackingCode}</p>
+                <button onclick="copyToClipboard('${baseUrl + trackingCode}')">Копировать</button>
             `;
         }
-    }
 
-    function logout() {
-        currentUser = null;
-        updateAuthUI();
-        alert('Вы вышли из системы!');
-    }
+        function addNotification(text) {
+            notifications.push({
+                date: new Date().toLocaleString(),
+                text
+            });
+            document.getElementById('notification-count').textContent = notifications.length;
+            localStorage.setItem('notifications', JSON.stringify(notifications));
+        }
 
-    function closeAuthModal() {
-        document.getElementById('authModal').style.display = 'none';
-    }
+        function showNotifications() {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <h3>🔔 Уведомления</h3>
+                ${notifications.map(n => `<p>${n.date} - ${n.text}</p>`).join('')}
+                <button onclick="this.parentElement.remove()">Закрыть</button>
+            `;
+            document.body.appendChild(modal);
+        }
 
-    function closeHistoryModal() {
-        document.getElementById('historyModal').style.display = 'none';
-    }
+        function updateUI() {
+            document.querySelectorAll('.user-email').forEach(el => el.textContent = currentUser.email);
+            document.getElementById('referralCount').textContent = currentUser.referrals;
+            document.getElementById('referralBonus').textContent = currentUser.bonus;
+        }
 
-    function closeModal() {
-        document.getElementById('productModal').style.display = 'none';
-    }
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            addNotification('Ссылка скопирована в буфер');
+        }
 
-    function debounce(func, timeout = 300){
-        let timer;
-        return (...args) => {
-            clearTimeout(timer);
-            timer = setTimeout(() => { func.apply(this, args); }, timeout);
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        window.onload = () => {
+            if(localStorage.getItem('notifications')) {
+                notifications = JSON.parse(localStorage.getItem('notifications'));
+                document.getElementById('notification-count').textContent = notifications.length;
+            }
         };
-    }
 
-    // Инициализация
-    document.addEventListener('DOMContentLoaded', () => {
-        const video = document.getElementById('video-bg');
-        video.play().catch(() => {
-            video.muted = true;
-            video.play();
-        });
-
-        // Обработчики фильтров
-        document.querySelectorAll('.age-btn').forEach(b => {
-            b.addEventListener('click', function() {
-                document.querySelectorAll('.age-btn').forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-                const age = this.dataset.age;
-                const section = document.querySelector('.section-btn.active').dataset.section;
-                updateProductsDisplay(age, section);
-            });
-        });
-
-        document.querySelectorAll('.section-btn').forEach(btn => {
+        document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                document.querySelectorAll('.section-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                const age = document.querySelector('.age-btn.active').dataset.age;
-                updateProductsDisplay(age, this.dataset.section);
+                const section = this.dataset.section;
+                document.querySelectorAll('.products-grid').forEach(grid => grid.style.display = 'none');
+                document.querySelector(`#${section}`).style.display = 'grid';
             });
         });
-
-        // Поиск
-        document.querySelector('.search-input').addEventListener('input', (e) => {
-            searchProducts(e.target.value);
-        });
-
-        // История заявок
-        document.querySelectorAll('.action-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                if(currentUser) {
-                    const productCard = this.closest('.product-card');
-                    const productName = productCard.querySelector('.product-name').textContent;
-                    const category = document.querySelector('.section-btn.active').dataset.section;
-                    addToHistory(productName, category);
-                }
-            });
-        });
-
-        // Инициализация интерфейса
-        updateAuthUI();
-        document.querySelector('.age-btn.active').click();
-    });
-</script>
+    </script>
 </body>
 </html>
