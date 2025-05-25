@@ -59,6 +59,12 @@
             padding: 20px;
             position: relative;
             z-index: 2;
+            transition: 0.3s opacity;
+        }
+
+        .container.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
 
         @keyframes slideIn {
@@ -126,32 +132,6 @@
             margin: 0 auto 30px;
             max-width: fit-content;
             position: relative;
-        }
-
-        .product-hover {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s;
-            cursor: pointer;
-            border-radius: 20px;
-        }
-
-        .product-hover span {
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-align: center;
-            padding: 15px;
-            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
         .filter-btn {
@@ -222,8 +202,6 @@
             background: linear-gradient(45deg, var(--neon-blue), #00c4ff);
             border-color: transparent;
             color: black;
-            align-items: center;
-            padding-top: 13px;
         }
 
         .section-btn.credit-btn {
@@ -245,13 +223,7 @@
         .section-btn.all-btn {
             background: linear-gradient(45deg, #ff6b6b, #ff3838);
             border-color: transparent;
-            position: relative;
-            right: 0;
-            top: 0;
-            transform: none;
             margin-left: auto;
-            order: 1;
-            margin-top: 10px;
         }
 
         .section-btn.active {
@@ -294,6 +266,7 @@
             position: relative;
             overflow: hidden;
             transform-style: preserve-3d;
+            cursor: pointer;
         }
 
         .product-card::before,
@@ -326,31 +299,33 @@
             opacity: 1;
         }
 
+        .product-hover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 2;
+        }
+
+        .product-hover-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         .product-card:hover .product-hover {
             opacity: 1;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 15px;
-            z-index: 1000;
-            max-width: 500px;
-            width: 90%;
-            border: 2px solid var(--neon-blue);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            color: var(--neon-blue);
         }
 
         .product-logo {
@@ -490,28 +465,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.2rem;
-            }
-            .avatar-container {
-                width: 160px;
-                height: 160px;
-            }
-            .filter-btn {
-                padding: 10px 20px;
-                font-size: 0.9rem;
-            }
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-            .section-btn.all-btn {
-                position: static;
-                transform: none;
-                margin-top: 15px;
-            }
-        }
-
         .auth-modal {
             display: none;
             position: fixed;
@@ -525,7 +478,7 @@
             width: 350px;
             border: 2px solid var(--neon-blue);
         }
-        
+
         .auth-form input {
             width: 100%;
             padding: 12px;
@@ -535,7 +488,7 @@
             border-radius: 5px;
             color: white;
         }
-        
+
         .auth-form button {
             width: 100%;
             padding: 12px;
@@ -568,6 +521,58 @@
             margin: 5px 0;
             background: rgba(255,255,255,0.05);
             border-radius: 8px;
+        }
+
+        .offer-details {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .offer-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .offer-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 20px;
+            object-fit: contain;
+            padding: 15px;
+            background: white;
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.3);
+        }
+
+        .offer-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: var(--card-bg);
+            border-radius: 15px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            .avatar-container {
+                width: 160px;
+                height: 160px;
+            }
+            .filter-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            .offer-header {
+                flex-direction: column;
+                text-align: center;
+            }
         }
     </style>
 </head>
