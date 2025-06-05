@@ -15,14 +15,12 @@
             --darker: #05050a;
             --card-bg: rgba(26, 26, 36, 0.95);
         }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Montserrat', sans-serif;
         }
-
         body {
             color: white;
             min-height: 100vh;
@@ -30,7 +28,6 @@
             overflow-x: hidden;
             line-height: 1.6;
         }
-
         #video-bg {
             position: fixed;
             top: 0;
@@ -42,7 +39,6 @@
             opacity: 0.2;
             filter: hue-rotate(180deg);
         }
-
         .overlay {
             position: fixed;
             top: 0;
@@ -52,7 +48,6 @@
             background: radial-gradient(circle at center, transparent 0%, var(--darker) 90%);
             z-index: -1;
         }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -60,19 +55,16 @@
             position: relative;
             z-index: 2;
         }
-
         @keyframes slideIn {
             0% { opacity: 0; transform: translateY(50px); }
             100% { opacity: 1; transform: translateY(0); }
         }
-
         header {
             text-align: center;
             margin-bottom: 40px;
             padding: 40px 0;
             animation: slideIn 1s ease-out;
         }
-
         .avatar-container {
             width: 200px;
             height: 200px;
@@ -80,7 +72,6 @@
             perspective: 1000px;
             position: relative;
         }
-
         .avatar {
             width: 100%;
             height: 100%;
@@ -91,12 +82,10 @@
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             filter: drop-shadow(0 0 10px var(--neon-blue));
         }
-
         .avatar:hover {
             transform: rotateY(20deg) scale(1.05);
             filter: drop-shadow(0 0 20px var(--neon-purple));
         }
-
         h1 {
             font-size: 3rem;
             margin-bottom: 15px;
@@ -107,12 +96,10 @@
             text-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
             animation: textGlow 2s ease-in-out infinite alternate;
         }
-
         @keyframes textGlow {
             0% { text-shadow: 0 0 10px rgba(0, 242, 255, 0.3); }
             100% { text-shadow: 0 0 25px rgba(161, 98, 232, 0.6); }
         }
-
         .filter-container {
             display: flex;
             justify-content: center;
@@ -127,7 +114,6 @@
             max-width: fit-content;
             position: relative;
         }
-
         .product-hover {
             position: absolute;
             top: 0;
@@ -143,7 +129,6 @@
             cursor: pointer;
             border-radius: 20px;
         }
-
         .product-hover span {
             font-size: 1.2rem;
             font-weight: bold;
@@ -153,7 +138,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .filter-btn {
             padding: 12px 28px;
             border-radius: 30px;
@@ -166,7 +150,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .filter-btn::before {
             content: '';
             position: absolute;
@@ -178,31 +161,25 @@
             transform: rotate(45deg);
             transition: all 0.5s;
         }
-
         .filter-btn:hover::before {
             animation: btnShine 1.5s;
         }
-
         @keyframes btnShine {
             0% { left: -100%; }
             100% { left: 200%; }
         }
-
         .age-btn.active {
             transform: translateY(-5px);
             box-shadow: 0 5px 20px rgba(0, 242, 255, 0.4);
         }
-
         .btn-14 {
             border-color: #00ff88;
             color: #00ff88;
         }
-
         .btn-18 {
             border-color: #ff0066;
             color: #ff0066;
         }
-
         .section-btn {
             padding: 12px 20px;
             border-radius: 8px;
@@ -217,7 +194,6 @@
             backdrop-filter: blur(5px);
             line-height: 1.2;
         }
-
         .section-btn.debit-btn {
             background: linear-gradient(45deg, var(--neon-blue), #00c4ff);
             border-color: transparent;
@@ -225,23 +201,19 @@
             align-items: center;
             padding-top: 13px;
         }
-
         .section-btn.credit-btn {
             background: linear-gradient(45deg, #a162e8, #7d3cff);
             border-color: transparent;
         }
-
         .section-btn.mfo-btn {
             background: linear-gradient(45deg, #ff0066, #ff0080);
             border-color: transparent;
         }
-
         .section-btn.rko-btn {
             background: linear-gradient(45deg, #00cc88, #00ffaa);
             border-color: transparent;
             color: black;
         }
-
         .section-btn.all-btn {
             background: linear-gradient(45deg, #ff6b6b, #ff3838);
             border-color: transparent;
@@ -253,13 +225,11 @@
             order: 1;
             margin-top: 10px;
         }
-
         .section-btn.active {
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 242, 255, 0.5);
             filter: brightness(1.1);
         }
-
         .products-container {
             display: none;
             animation: fadeIn 0.5s ease;
@@ -269,7 +239,6 @@
             height: 0;
             overflow: hidden;
         }
-
         .products-container.active {
             display: block;
             opacity: 1;
@@ -277,13 +246,11 @@
             height: auto;
             animation: fadeIn 0.5s ease;
         }
-
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 25px;
         }
-
         .product-card {
             background: var(--card-bg);
             border-radius: 20px;
@@ -295,7 +262,6 @@
             overflow: hidden;
             transform-style: preserve-3d;
         }
-
         .product-card::before,
         .product-card::after {
             content: '';
@@ -303,7 +269,6 @@
             border-radius: inherit;
             pointer-events: none;
         }
-
         .product-card::before {
             inset: -1px;
             background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple), transparent 60%);
@@ -311,25 +276,20 @@
             opacity: 0;
             transition: opacity 0.3s;
         }
-
         .product-card::after {
             inset: 0;
             background: radial-gradient(circle at 50% 50%, rgba(0, 242, 255, 0.1), transparent 60%);
         }
-
         .product-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 40px rgba(0, 242, 255, 0.2);
         }
-
         .product-card:hover::before {
             opacity: 1;
         }
-
         .product-card:hover .product-hover {
             opacity: 1;
         }
-
         .modal {
             display: none;
             position: fixed;
@@ -344,7 +304,6 @@
             width: 90%;
             border: 2px solid var(--neon-blue);
         }
-
         .modal-close {
             position: absolute;
             top: 10px;
@@ -352,7 +311,6 @@
             cursor: pointer;
             color: var(--neon-blue);
         }
-
         .product-logo {
             width: 70px;
             height: 70px;
@@ -364,11 +322,9 @@
             box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
         .product-card:hover .product-logo {
             transform: rotate(15deg) scale(1.1);
         }
-
         .product-name {
             font-size: 1.3rem;
             margin-bottom: 12px;
@@ -377,7 +333,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .product-payout {
             color: var(--neon-blue);
             font-weight: 800;
@@ -385,14 +340,12 @@
             font-size: 1.2rem;
             text-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
         }
-
         .product-description {
             color: #a0a0a0;
             font-size: 0.95rem;
             margin-bottom: 25px;
             min-height: 60px;
         }
-
         .action-btn {
             display: flex;
             align-items: center;
@@ -414,7 +367,6 @@
             -webkit-tap-highlight-color: transparent;
             user-select: none;
         }
-
         .action-btn::before {
             content: '';
             position: absolute;
@@ -425,22 +377,18 @@
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
             transition: 0.5s;
         }
-
         .action-btn:hover::before {
             left: 100%;
         }
-
         .action-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 5px 20px rgba(0, 242, 255, 0.4);
         }
-
         .search-container {
             max-width: 600px;
             margin: 0 auto 40px;
             position: relative;
         }
-
         .search-input {
             width: 100%;
             padding: 18px 25px;
@@ -452,12 +400,10 @@
             padding-right: 60px;
             transition: all 0.3s ease;
         }
-
         .search-input:focus {
             box-shadow: 0 0 30px rgba(0, 242, 255, 0.3);
             outline: none;
         }
-
         .search-icon {
             position: absolute;
             right: 25px;
@@ -466,14 +412,12 @@
             color: var(--neon-blue);
             font-size: 1.3rem;
         }
-
         .no-results {
             text-align: center;
             font-size: 1.2rem;
             color: var(--neon-pink);
             display: none;
         }
-
         .loader {
             display: none;
             border: 4px solid rgba(255,255,255,0.1);
@@ -484,12 +428,10 @@
             animation: spin 1s linear infinite;
             margin: 30px auto;
         }
-
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
         @media (max-width: 768px) {
             h1 {
                 font-size: 2.2rem;
@@ -511,7 +453,6 @@
                 margin-top: 15px;
             }
         }
-
         .auth-modal {
             display: none;
             position: fixed;
@@ -525,7 +466,6 @@
             width: 350px;
             border: 2px solid var(--neon-blue);
         }
-        
         .auth-form input {
             width: 100%;
             padding: 12px;
@@ -535,7 +475,6 @@
             border-radius: 5px;
             color: white;
         }
-        
         .auth-form button {
             width: 100%;
             padding: 12px;
@@ -547,7 +486,6 @@
             font-weight: bold;
             cursor: pointer;
         }
-
         .history-modal {
             display: none;
             position: fixed;
@@ -562,7 +500,6 @@
             max-width: 600px;
             border: 2px solid var(--neon-blue);
         }
-
         .history-item {
             padding: 10px;
             margin: 5px 0;
@@ -576,7 +513,6 @@
     <video id="video-bg" autoplay muted loop playsinline>
         <source src="https://raw.githubusercontent.com/bort0ld/bort0ld-my-video-host/main/Mixkit-Blurred-Abstract-Cars-Lights-At-Night-With-Bokeh-Effect-30-4K.mp4" type="video/mp4">
     </video>
-
     <div id="authModal" class="auth-modal">
         <h3 style="text-align: center; margin-bottom: 20px;">🔐 Авторизация</h3>
         <form class="auth-form" onsubmit="return false;">
@@ -590,18 +526,15 @@
             </p>
         </form>
     </div>
-
     <div id="historyModal" class="history-modal">
         <h3>📝 История оформлений</h3>
         <div id="historyList"></div>
         <button onclick="closeHistoryModal()" class="action-btn" style="margin-top: 20px;">Закрыть</button>
     </div>
-
     <div class="auth-buttons" style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
         <button id="loginBtn" class="filter-btn">Войти</button>
         <button id="registerBtn" class="filter-btn">Регистрация</button>
     </div>
-
     <div class="container">
         <header>
             <div class="search-container">
@@ -640,7 +573,6 @@
                 </button>
             </div>
         </header>
-
         <div id="productModal" class="modal">
             <span class="modal-close" onclick="closeModal()">&times;</span>
             <h3 id="modalTitle"></h3>
@@ -648,10 +580,32 @@
             <p><strong>Выплата:</strong> <span id="modalPayout"></span></p>
         </div>
 
+        <!-- === Вкладка "Все товары" с группировкой === -->
+        <div id="all-products" class="products-container">
+            <h2 style="color: var(--neon-blue); margin-bottom: 20px; border-bottom: 1px solid #2a2a3a; padding-bottom: 10px;">
+                🏦 Дебетовые карты
+            </h2>
+            <div class="products-grid" id="all-debit"></div>
+
+            <h2 style="color: var(--neon-purple); margin-top: 40px; margin-bottom: 20px; border-bottom: 1px solid #2a2a3a; padding-bottom: 10px;">
+                💳 Кредитные карты
+            </h2>
+            <div class="products-grid" id="all-credit"></div>
+
+            <h2 style="color: var(--neon-pink); margin-top: 40px; margin-bottom: 20px; border-bottom: 1px solid #2a2a3a; padding-bottom: 10px;">
+                💰 Микрозаймы
+            </h2>
+            <div class="products-grid" id="all-mfo"></div>
+
+            <h2 style="color: var(--neon-purple); margin-top: 40px; margin-bottom: 20px; border-bottom: 1px solid #2a2a3a; padding-bottom: 10px;">
+                📈 Расчетный счет (РКО)
+            </h2>
+            <div class="products-grid" id="all-rko"></div>
+        </div>
+
         <!-- Секции продуктов -->
         <div id="debit-14" class="products-container active">
             <div class="products-grid">
-                <!-- Продукты дебетовые 14+ -->
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/3/102931.png" class="product-logo">
                     <h3 class="product-name">Т-Банк</h3>
@@ -660,7 +614,6 @@
                     <a href="https://clck.ru/3MCUKY" class="action-btn" target="_blank" onclick="sendToTelegram('Т-Банк')">
                         Оформить <i class="fas fa-arrow-right"></i></a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://www.vtb.ru/media-files/vtb.ru/shared/images/icon/favicon_512x512px.webp" class="product-logo">
                     <h3 class="product-name">ВТБ</h3>
@@ -672,8 +625,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- 18+ Дебетовые -->
         <div id="debit-18" class="products-container">
             <div class="products-grid">
                 <div class="product-card">
@@ -685,7 +636,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/a/102122.png" class="product-logo">
                     <h3 class="product-name">АК Барс</h3>
@@ -695,7 +645,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/4/101906.jpg" class="product-logo">
                     <h3 class="product-name">Фора-Банк</h3>
@@ -705,7 +654,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/7/103229.png" class="product-logo">
                     <h3 class="product-name">ВТБ Платежный стикер</h3>
@@ -715,7 +663,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/0/103216.png" class="product-logo">
                     <h3 class="product-name">МТС Деньги</h3>
@@ -725,7 +672,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/3/102931.png" class="product-logo">
                     <h3 class="product-name">Т-Банк</h3>
@@ -735,7 +681,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/7/103229.png" class="product-logo">
                     <h3 class="product-name">ВТБ</h3>
@@ -745,7 +690,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/e/103415.png" class="product-logo">
                     <h3 class="product-name">УБРиР</h3>
@@ -755,7 +699,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/a/101872.png" class="product-logo">
                     <h3 class="product-name">МТС Банк</h3>
@@ -767,8 +710,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- 18+ Кредитные -->
         <div id="credit-18" class="products-container">
             <div class="products-grid">
                 <div class="product-card">
@@ -780,7 +721,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/6/100597.png" class="product-logo">
                     <h3 class="product-name">Уралсиб</h3>
@@ -790,7 +730,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/7/102533.png" class="product-logo">
                     <h3 class="product-name">А-Деньги</h3>
@@ -800,7 +739,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/2/101795.png" class="product-logo">
                     <h3 class="product-name">Сбербанк</h3>
@@ -810,7 +748,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/0/102864.png" class="product-logo">
                     <h3 class="product-name">Банк ЗЕНИТ</h3>
@@ -820,7 +757,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/8/102859.png" class="product-logo">
                     <h3 class="product-name">АК Барс</h3>
@@ -830,7 +766,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/2/102940.png" class="product-logo">
                     <h3 class="product-name">Т-Банк - Платинум</h3>
@@ -842,11 +777,8 @@
                 </div>
             </div>
         </div>
-
-        <!-- 18+ МФО -->
         <div id="mfo-18" class="products-container">
             <div class="products-grid">
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/4/98189.jpg" class="product-logo">
                     <h3 class="product-name">Умные Наличные</h3>
@@ -856,7 +788,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-                
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/c/103177.png" class="product-logo">
                     <h3 class="product-name">Займер</h3>
@@ -866,8 +797,7 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
-                                <div class="product-card">
+                <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/2/103233.png" class="product-logo">
                     <h3 class="product-name">ЗаёмРу</h3>
                     <div class="product-payout">1000 ₽</div>
@@ -876,8 +806,7 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
-                                <div class="product-card">
+                <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/9/99627.jpg" class="product-logo">
                     <h3 class="product-name">Creditter</h3>
                     <div class="product-payout">1000 ₽</div>
@@ -886,8 +815,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
-                
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/a/101858.png" class="product-logo">
                     <h3 class="product-name">Max.Credit</h3>
@@ -897,7 +824,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-                
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/5/27070.png" class="product-logo">
                     <h3 class="product-name">Микроклад</h3>
@@ -907,7 +833,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/3/99359.png" class="product-logo">
                     <h3 class="product-name">Zaymingo</h3>
@@ -917,7 +842,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/2/103316.png" class="product-logo">
                     <h3 class="product-name">Moneyman</h3>
@@ -927,7 +851,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/0/72620.png" class="product-logo">
                     <h3 class="product-name">ФИНМОЛЛ</h3>
@@ -937,7 +860,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/f/80620.png" class="product-logo">
                     <h3 class="product-name">Деньги на дом</h3>
@@ -947,9 +869,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
-
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/d/101773.png" class="product-logo">
                     <h3 class="product-name">Срочноденьги</h3>
@@ -959,7 +878,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/f/103144.png" class="product-logo">
                     <h3 class="product-name">ВД Платинум</h3>
@@ -969,8 +887,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/7/101811.png" class="product-logo">
                     <h3 class="product-name">Быстроденьги</h3>
@@ -980,7 +896,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/2/103424.png" class="product-logo">
                     <h3 class="product-name">Кекас</h3>
@@ -990,7 +905,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/2/102869.png" class="product-logo">
                     <h3 class="product-name">МедиумСкор</h3>
@@ -1000,7 +914,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/e/103053.png" class="product-logo">
                     <h3 class="product-name">Рокетмэн</h3>
@@ -1010,7 +923,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/9/102906.png" class="product-logo">
                     <h3 class="product-name">Займ Мобайл</h3>
@@ -1020,7 +932,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/c/99317.png" class="product-logo">
                     <h3 class="product-name">VIVA деньги</h3>
@@ -1030,7 +941,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/a/100181.png" class="product-logo">
                     <h3 class="product-name">Krediska</h3>
@@ -1040,7 +950,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/9/102821.png" class="product-logo">
                     <h3 class="product-name">БериБеру</h3>
@@ -1050,9 +959,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
-                
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/3/102576.png" class="product-logo">
                     <h3 class="product-name">Ваш кредит</h3>
@@ -1062,7 +968,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/c/103390.png" class="product-logo">
                     <h3 class="product-name">Эквазайм</h3>
@@ -1072,7 +977,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/f/103397.png" class="product-logo">
                     <h3 class="product-name">Занимательные Финансы</h3>
@@ -1082,7 +986,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/6/102578.png" class="product-logo">
                     <h3 class="product-name">Деньга</h3>
@@ -1092,7 +995,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/f/103167.png" class="product-logo">
                     <h3 class="product-name">Деньги ОК</h3>
@@ -1102,7 +1004,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/6/103211.png" class="product-logo">
                     <h3 class="product-name">Сashmagnit</h3>
@@ -1112,7 +1013,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/8/102382.png" class="product-logo">
                     <h3 class="product-name">Ecozaym</h3>
@@ -1122,7 +1022,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/6/102381.png" class="product-logo">
                     <h3 class="product-name">HurmaCredit</h3>
@@ -1132,7 +1031,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/9/103078.png" class="product-logo">
                     <h3 class="product-name">ЛайкЗайм</h3>
@@ -1142,7 +1040,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/d/99948.png" class="product-logo">
                     <h3 class="product-name">Центрофинанс</h3>
@@ -1152,7 +1049,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/3/99350.png" class="product-logo">
                     <h3 class="product-name">BelkaCredit</h3>
@@ -1162,7 +1058,6 @@
                         Оформить <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/f/100198.jpg" class="product-logo">
                     <h3 class="product-name">Credit7</h3>
@@ -1174,11 +1069,8 @@
                 </div>
             </div>
         </div>
-
-        <!-- 18+ РКО -->
         <div id="rko-18" class="products-container">
             <div class="products-grid">
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/b/100596.png" class="product-logo">
                     <h3 class="product-name">УРАЛСИБ - РКО</h3>
@@ -1188,7 +1080,6 @@
                         Открыть <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-                
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/1/102846.png" class="product-logo">
                     <h3 class="product-name">Ак Барс - РКО</h3>
@@ -1198,7 +1089,6 @@
                         Открыть <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/d/102058.png" class="product-logo">
                     <h3 class="product-name">Бланк Банк - РКО</h3>
@@ -1208,7 +1098,6 @@
                         Открыть <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/0/99461.png" class="product-logo">
                     <h3 class="product-name">ЛОКО-БАНК - РКО</h3>
@@ -1218,7 +1107,6 @@
                         Открыть <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/9/100594.png" class="product-logo">
                     <h3 class="product-name">Совкомбанк</h3>
@@ -1228,7 +1116,6 @@
                         Открыть <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://agents.pampadu.ru/api/file/ViewFile?type=1&name=a7b59fcc-bd82-4179-af2b-4770945ec4ed.png" class="product-logo">
                     <h3 class="product-name">Озон Банк</h3>
@@ -1238,7 +1125,6 @@
                         Открыть <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/3/102386.png" class="product-logo">
                     <h3 class="product-name">Альфа-Банк - РКО</h3>
@@ -1251,230 +1137,233 @@
             </div>
         </div>
     </div>
-
     <script>
-    let currentSearchQuery = '';
-    let users = JSON.parse(localStorage.getItem('users')) || [];
-    let currentUser = null;
+        let currentSearchQuery = '';
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let currentUser = null;
 
-    // Функции для работы с продуктами
-    function sortProducts(container) {
-        const products = Array.from(container.querySelectorAll('.product-card'));
-        products.sort((a, b) => {
-            const priceA = parseInt(a.querySelector('.product-payout').textContent);
-            const priceB = parseInt(b.querySelector('.product-payout').textContent);
-            return priceB - priceA;
-        });
-        products.forEach(product => container.querySelector('.products-grid').appendChild(product));
-    }
-
-    function updateProductsDisplay(age, section) {
-        document.querySelectorAll('.products-container').forEach(el => el.classList.remove('active'));
-        
-        if(section === 'all') {
-            document.querySelectorAll(`.products-container`).forEach(el => {
-                if(el.id.endsWith(`-${age}`)) el.classList.add('active');
+        function sortProducts(container) {
+            const products = Array.from(container.querySelectorAll('.product-card'));
+            products.sort((a, b) => {
+                const priceA = parseInt(a.querySelector('.product-payout').textContent);
+                const priceB = parseInt(b.querySelector('.product-payout').textContent);
+                return priceB - priceA;
             });
-        } else {
-            document.getElementById(`${section}-${age}`).classList.add('active');
+            products.forEach(product => container.querySelector('.products-grid').appendChild(product));
         }
-        
-        document.querySelectorAll('.products-container.active').forEach(container => {
-            sortProducts(container);
-            if(currentSearchQuery) searchProducts(currentSearchQuery);
-        });
-    }
 
-    // Поиск
-    const searchProducts = debounce((searchText) => {
-        currentSearchQuery = searchText.toLowerCase();
-        document.querySelector('.loader').style.display = 'block';
-        
-        setTimeout(() => {
-            let found = false;
-            document.querySelectorAll('.products-container.active').forEach(container => {
-                const cards = container.querySelectorAll('.product-card');
-                cards.forEach(card => {
-                    const name = card.querySelector('.product-name').textContent.toLowerCase();
-                    card.style.display = name.includes(currentSearchQuery) ? 'block' : 'none';
-                    if(name.includes(currentSearchQuery)) found = true;
+        function updateProductsDisplay(age, section) {
+            document.querySelectorAll('.products-container').forEach(el => el.classList.remove('active'));
+
+            if(section === 'all') {
+                // Показываем "все товары"
+                const allContainer = document.getElementById('all-products');
+                allContainer.classList.add('active');
+
+                ['debit', 'credit', 'mfo', 'rko'].forEach(type => {
+                    document.getElementById(`all-${type}`).innerHTML = '';
                 });
+
+                const containers = {
+                    debit: document.getElementById('all-debit'),
+                    credit: document.getElementById('all-credit'),
+                    mfo: document.getElementById('all-mfo'),
+                    rko: document.getElementById('all-rko')
+                };
+
+                const activeContainers = document.querySelectorAll(`.products-container[id$="-${age}"]`);
+                activeContainers.forEach(container => {
+                    const sectionType = container.id.split('-')[0];
+                    if (containers[sectionType]) {
+                        const cards = container.querySelectorAll('.product-card');
+                        cards.forEach(card => {
+                            const clone = card.cloneNode(true);
+                            containers[sectionType].appendChild(clone);
+                        });
+                    }
+                });
+            } else {
+                document.getElementById(`${section}-${age}`).classList.add('active');
+            }
+
+            document.querySelectorAll('.products-container.active').forEach(container => {
+                sortProducts(container);
+                if(currentSearchQuery) searchProducts(currentSearchQuery);
             });
-            
-            document.querySelector('.no-results').style.display = found ? 'none' : 'block';
-            document.querySelector('.loader').style.display = 'none';
+        }
+
+        const searchProducts = debounce((searchText) => {
+            currentSearchQuery = searchText.toLowerCase();
+            document.querySelector('.loader').style.display = 'block';
+            setTimeout(() => {
+                let found = false;
+                document.querySelectorAll('.products-container.active').forEach(container => {
+                    const cards = container.querySelectorAll('.product-card');
+                    cards.forEach(card => {
+                        const name = card.querySelector('.product-name').textContent.toLowerCase();
+                        card.style.display = name.includes(currentSearchQuery) ? 'block' : 'none';
+                        if(name.includes(currentSearchQuery)) found = true;
+                    });
+                });
+                document.querySelector('.no-results').style.display = found ? 'block' : 'none';
+                document.querySelector('.loader').style.display = 'none';
+            }, 300);
         }, 300);
-    }, 300);
 
-    // Аутентификация
-    function handleAuth() {
-        const email = document.getElementById('authEmail').value;
-        const password = document.getElementById('authPassword').value;
-        const user = users.find(u => u.email === email && u.password === password);
-        
-        if(user) {
-            currentUser = user;
-            updateAuthUI();
-            closeAuthModal();
-            alert('Вход выполнен!');
-        } else {
-            alert('Неверные данные!');
-        }
-    }
-
-    function handleRegister() {
-        const email = document.getElementById('authEmail').value;
-        const password = document.getElementById('authPassword').value;
-
-        if(!validateEmail(email)) {
-            alert('Некорректный email!');
-            return;
+        function handleAuth() {
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+            const user = users.find(u => u.email === email && u.password === password);
+            if(user) {
+                currentUser = user;
+                updateAuthUI();
+                closeAuthModal();
+                alert('Вход выполнен!');
+            } else {
+                alert('Неверные данные!');
+            }
         }
 
-        if(users.some(u => u.email === email)) {
-            alert('Пользователь уже существует!');
-            return;
-        }
-
-        users.push({
-            email,
-            password,
-            history: [],
-            confirmed: true
-        });
-        
-        localStorage.setItem('users', JSON.stringify(users));
-        currentUser = users.find(u => u.email === email);
-        updateAuthUI();
-        closeAuthModal();
-        alert('Регистрация успешна!');
-    }
-
-    // История
-    function addToHistory(productName, category) {
-        if(currentUser) {
-            currentUser.history.push({
-                date: new Date().toLocaleString(),
-                product: productName,
-                category: category
+        function handleRegister() {
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+            if(!validateEmail(email)) {
+                alert('Некорректный email!');
+                return;
+            }
+            if(users.some(u => u.email === email)) {
+                alert('Пользователь уже существует!');
+                return;
+            }
+            users.push({
+                email,
+                password,
+                history: [],
+                confirmed: true
             });
             localStorage.setItem('users', JSON.stringify(users));
+            currentUser = users.find(u => u.email === email);
+            updateAuthUI();
+            closeAuthModal();
+            alert('Регистрация успешна!');
         }
-    }
 
-    function showHistory() {
-        const modal = document.getElementById('historyModal');
-        const list = document.getElementById('historyList');
-        list.innerHTML = currentUser.history.map(item => `
-            <div class="history-item">
-                <strong>${item.date}</strong><br>
-                Категория: ${item.category}<br>
-                Продукт: ${item.product}
-            </div>
-        `).join('');
-        modal.style.display = 'block';
-    }
+        function addToHistory(productName, category) {
+            if(currentUser) {
+                currentUser.history.push({
+                    date: new Date().toLocaleString(),
+                    product: productName,
+                    category: category
+                });
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+        }
 
-    // Вспомогательные функции
-    function validateEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
-    function updateAuthUI() {
-        const authButtons = document.querySelector('.auth-buttons');
-        if(currentUser) {
-            authButtons.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <span>👤 ${currentUser.email}</span>
-                    <button onclick="showHistory()" class="filter-btn">История</button>
-                    <button onclick="logout()" class="filter-btn">Выйти</button>
+        function showHistory() {
+            const modal = document.getElementById('historyModal');
+            const list = document.getElementById('historyList');
+            list.innerHTML = currentUser.history.map(item => `
+                <div class="history-item">
+                    <strong>${item.date}</strong><br>
+                    Категория: ${item.category}<br>
+                    Продукт: ${item.product}
                 </div>
-            `;
-        } else {
-            authButtons.innerHTML = `
-                <button onclick="document.getElementById('authModal').style.display='block'" 
-                    class="filter-btn">Войти</button>
-                <button onclick="document.getElementById('authModal').style.display='block'" 
-                    class="filter-btn">Регистрация</button>
-            `;
+            `).join('');
+            modal.style.display = 'block';
         }
-    }
 
-    function logout() {
-        currentUser = null;
-        updateAuthUI();
-        alert('Вы вышли из системы!');
-    }
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
 
-    function closeAuthModal() {
-        document.getElementById('authModal').style.display = 'none';
-    }
+        function updateAuthUI() {
+            const authButtons = document.querySelector('.auth-buttons');
+            if(currentUser) {
+                authButtons.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <span>👤 ${currentUser.email}</span>
+                        <button onclick="showHistory()" class="filter-btn">История</button>
+                        <button onclick="logout()" class="filter-btn">Выйти</button>
+                    </div>
+                `;
+            } else {
+                authButtons.innerHTML = `
+                    <button onclick="document.getElementById('authModal').style.display='block'" class="filter-btn">Войти</button>
+                    <button onclick="document.getElementById('authModal').style.display='block'" class="filter-btn">Регистрация</button>
+                `;
+            }
+        }
 
-    function closeHistoryModal() {
-        document.getElementById('historyModal').style.display = 'none';
-    }
+        function logout() {
+            currentUser = null;
+            updateAuthUI();
+            alert('Вы вышли из системы!');
+        }
 
-    function closeModal() {
-        document.getElementById('productModal').style.display = 'none';
-    }
+        function closeAuthModal() {
+            document.getElementById('authModal').style.display = 'none';
+        }
 
-    function debounce(func, timeout = 300){
-        let timer;
-        return (...args) => {
-            clearTimeout(timer);
-            timer = setTimeout(() => { func.apply(this, args); }, timeout);
-        };
-    }
+        function closeHistoryModal() {
+            document.getElementById('historyModal').style.display = 'none';
+        }
 
-    // Инициализация
-    document.addEventListener('DOMContentLoaded', () => {
-        const video = document.getElementById('video-bg');
-        video.play().catch(() => {
-            video.muted = true;
-            video.play();
-        });
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
 
-        // Обработчики фильтров
-        document.querySelectorAll('.age-btn').forEach(b => {
-            b.addEventListener('click', function() {
-                document.querySelectorAll('.age-btn').forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-                const age = this.dataset.age;
-                const section = document.querySelector('.section-btn.active').dataset.section;
-                updateProductsDisplay(age, section);
+        function debounce(func, timeout = 300){
+            let timer;
+            return (...args) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => { func.apply(this, args); }, timeout);
+            };
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const video = document.getElementById('video-bg');
+            video.play().catch(() => {
+                video.muted = true;
+                video.play();
             });
-        });
 
-        document.querySelectorAll('.section-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.section-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                const age = document.querySelector('.age-btn.active').dataset.age;
-                updateProductsDisplay(age, this.dataset.section);
+            document.querySelectorAll('.age-btn').forEach(b => {
+                b.addEventListener('click', function() {
+                    document.querySelectorAll('.age-btn').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    const age = this.dataset.age;
+                    const section = document.querySelector('.section-btn.active').dataset.section;
+                    updateProductsDisplay(age, section);
+                });
             });
-        });
 
-        // Поиск
-        document.querySelector('.search-input').addEventListener('input', (e) => {
-            searchProducts(e.target.value);
-        });
-
-        // История заявок
-        document.querySelectorAll('.action-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                if(currentUser) {
-                    const productCard = this.closest('.product-card');
-                    const productName = productCard.querySelector('.product-name').textContent;
-                    const category = document.querySelector('.section-btn.active').dataset.section;
-                    addToHistory(productName, category);
-                }
+            document.querySelectorAll('.section-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.section-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const age = document.querySelector('.age-btn.active').dataset.age;
+                    updateProductsDisplay(age, this.dataset.section);
+                });
             });
-        });
 
-        // Инициализация интерфейса
-        updateAuthUI();
-        document.querySelector('.age-btn.active').click();
-    });
-</script>
+            document.querySelector('.search-input').addEventListener('input', (e) => {
+                searchProducts(e.target.value);
+            });
+
+            document.querySelectorAll('.action-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    if(currentUser) {
+                        const productCard = this.closest('.product-card');
+                        const productName = productCard.querySelector('.product-name').textContent;
+                        const category = document.querySelector('.section-btn.active').dataset.section;
+                        addToHistory(productName, category);
+                    }
+                });
+            });
+
+            updateAuthUI();
+            document.querySelector('.age-btn.active').click();
+        });
+    </script>
 </body>
 </html>
