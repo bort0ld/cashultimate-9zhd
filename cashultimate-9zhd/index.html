@@ -79,6 +79,7 @@
         }
         h1 {
             font-size: 3rem;
+            margin-bottom: 15px;
             background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -98,12 +99,36 @@
             margin: 0 auto 30px;
             max-width: fit-content;
         }
+        .product-hover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+        .product-hover span {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
         .filter-btn {
             padding: 12px 28px;
             border-radius: 30px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 2px solid;
             background: transparent;
             font-size: 0.95rem;
@@ -122,7 +147,7 @@
             transition: all 0.5s;
         }
         .filter-btn:hover::before {
-            animation: btnShine 1.5s;
+            animation: btnShine 1.5s forwards;
         }
         @keyframes btnShine {
             0% { left: -100%; }
@@ -146,7 +171,7 @@
             border: 2px solid;
             color: white;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -154,28 +179,28 @@
             backdrop-filter: blur(5px);
             line-height: 1.2;
         }
-        .debit-btn {
+        .section-btn.debit-btn {
             background: linear-gradient(45deg, var(--neon-blue), #00c4ff);
             border-color: transparent;
             color: black;
         }
-        .credit-btn {
+        .section-btn.credit-btn {
             background: linear-gradient(45deg, #a162e8, #7d3cff);
             border-color: transparent;
         }
-        .mfo-btn {
+        .section-btn.mfo-btn {
             background: linear-gradient(45deg, #ff0066, #ff0080);
             border-color: transparent;
         }
-        .rko-btn {
+        .section-btn.rko-btn {
             background: linear-gradient(45deg, #00cc88, #00ffaa);
             border-color: transparent;
             color: black;
         }
-        .all-btn {
+        .section-btn.all-btn {
             background: linear-gradient(45deg, #ff6b6b, #ff3838);
             border-color: transparent;
-            margin-top: 10px;
+            order: 1;
         }
         .section-btn.active {
             transform: translateY(-3px);
@@ -198,7 +223,8 @@
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
+            gap: 30px;
+            margin-bottom: 50px;
         }
         .product-card {
             background: var(--card-bg);
@@ -209,9 +235,30 @@
             backdrop-filter: blur(8px);
             position: relative;
         }
+        .product-card::before,
+        .product-card::after {
+            content: '';
+            position: absolute;
+            border-radius: inherit;
+            pointer-events: none;
+        }
+        .product-card::before {
+            inset: -1px;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple), transparent 60%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .product-card::after {
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 242, 255, 0.1), transparent 60%);
+        }
         .product-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 40px rgba(0, 242, 255, 0.2);
+        }
+        .product-card:hover::before {
+            opacity: 1;
         }
         .product-logo {
             width: 70px;
@@ -222,6 +269,10 @@
             padding: 8px;
             margin-bottom: 20px;
             box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+            transition: transform 0.3s;
+        }
+        .product-card:hover .product-logo {
+            transform: rotate(15deg) scale(1.1);
         }
         .product-name {
             font-size: 1.3rem;
@@ -274,8 +325,6 @@
         .action-btn:hover::before {
             left: 100%;
         }
-
-        /* Поиск */
         .search-container {
             max-width: 600px;
             margin: 0 auto 40px;
@@ -309,7 +358,6 @@
             font-size: 1.2rem;
             color: var(--neon-pink);
             display: none;
-            margin-top: 20px;
         }
         .loader {
             display: none;
@@ -325,8 +373,12 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
-        /* Авторизация / История */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .avatar-container { width: 160px; height: 160px; }
+            .filter-btn { padding: 10px 20px; font-size: 0.9rem; }
+            .products-grid { grid-template-columns: 1fr; }
+        }
         .auth-modal,
         .history-modal {
             display: none;
@@ -342,8 +394,8 @@
             border: 2px solid var(--neon-blue);
         }
         .history-modal {
-            width: 90%;
             max-width: 600px;
+            width: 90%;
         }
         .modal-close {
             position: absolute;
@@ -377,28 +429,22 @@
             top: 20px;
             right: 20px;
             z-index: 1000;
+            display: flex;
+            gap: 10px;
         }
-
-        /* Заголовки для всех товаров */
         .products-container h2 {
             font-size: 1.5rem;
+            color: var(--neon-blue);
             margin-bottom: 20px;
             border-bottom: 1px solid #2a2a3a;
             padding-bottom: 10px;
         }
-        .products-container h2:nth-child(1) { color: var(--neon-blue); }
         .products-container h2:nth-child(3),
-        .products-container h2:nth-child(5) { color: var(--neon-purple); }
-        .products-container h2:nth-child(7) { color: var(--neon-pink); }
-
-        @media (max-width: 768px) {
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-            .filter-btn {
-                padding: 10px 20px;
-                font-size: 0.9rem;
-            }
+        .products-container h2:nth-child(5) {
+            color: var(--neon-purple);
+        }
+        .products-container h2:nth-child(7) {
+            color: var(--neon-pink);
         }
     </style>
 </head>
@@ -447,15 +493,25 @@
             <div class="filter-container">
                 <button class="filter-btn age-btn btn-18" data-age="18">18+</button>
                 <button class="filter-btn age-btn btn-14 active" data-age="14">14+</button>
-                <button class="filter-btn section-btn debit-btn active" data-section="debit"><i class="fas fa-credit-card"></i> Дебетовые</button>
-                <button class="filter-btn section-btn credit-btn" data-section="credit"><i class="fas fa-hand-holding-usd"></i> Кредитные карты</button>
-                <button class="filter-btn section-btn mfo-btn" data-section="mfo"><i class="fas fa-coins"></i> Микрозаймы</button>
-                <button class="filter-btn section-btn rko-btn" data-section="rko"><i class="fas fa-building"></i> РКО</button>
-                <button class="filter-btn section-btn all-btn" data-section="all"><i class="fas fa-layer-group"></i> Все товары</button>
+                <button class="filter-btn section-btn debit-btn active" data-section="debit">
+                    <i class="fas fa-credit-card"></i> Дебетовые
+                </button>
+                <button class="filter-btn section-btn credit-btn" data-section="credit">
+                    <i class="fas fa-hand-holding-usd"></i> Кредитные карты
+                </button>
+                <button class="filter-btn section-btn mfo-btn" data-section="mfo">
+                    <i class="fas fa-coins"></i> Микрозаймы
+                </button>
+                <button class="filter-btn section-btn rko-btn" data-section="rko">
+                    <i class="fas fa-building"></i> РКО
+                </button>
+                <button class="filter-btn section-btn all-btn" data-section="all">
+                    <i class="fas fa-layer-group"></i> Все товары
+                </button>
             </div>
         </header>
 
-        <!-- Модалка карточки -->
+        <!-- Модалка -->
         <div id="productModal" class="modal">
             <span class="modal-close" onclick="closeModal()">&times;</span>
             <h3 id="modalTitle"></h3>
@@ -465,22 +521,20 @@
 
         <!-- === Вкладка "Все товары" с группировкой === -->
         <div id="all-products" class="products-container">
-            <h2>🏦 Дебетовые карты</h2>
+            <h2 id="debit-title">🏦 Дебетовые карты (<span>0</span>)</h2>
             <div class="products-grid" id="all-debit"></div>
 
-            <h2>💳 Кредитные карты</h2>
+            <h2 id="credit-title">💳 Кредитные карты (<span>0</span>)</h2>
             <div class="products-grid" id="all-credit"></div>
 
-            <h2>💰 Микрозаймы</h2>
+            <h2 id="mfo-title">💰 Микрозаймы (<span>0</span>)</h2>
             <div class="products-grid" id="all-mfo"></div>
 
-            <h2>📈 Расчетный счет (РКО)</h2>
+            <h2 id="rko-title">📈 Расчетный счет (РКО) (<span>0</span>)</h2>
             <div class="products-grid" id="all-rko"></div>
         </div>
 
-        <!-- === Продукты === -->
-
-        <!-- Дебетовые 14+ -->
+        <!-- Продукты дебетовые -->
         <div id="debit-14" class="products-container active">
             <div class="products-grid">
                 <div class="product-card">
@@ -488,19 +542,18 @@
                     <h3 class="product-name">Т-Банк</h3>
                     <div class="product-payout">500 ₽</div>
                     <p class="product-description">Карта с кешбеком</p>
-                    <a href="https://clck.ru/3MCUKY"  target="_blank" class="action-btn" onclick="sendToTelegram('Т-Банк')">Оформить <i class="fas fa-arrow-right"></i></a>
+                    <a href="https://clck.ru/3MCUKY"  class="action-btn" target="_blank" onclick="sendToTelegram('Т-Банк')">Оформить <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="product-card">
                     <img src="https://www.vtb.ru/media-files/vtb.ru/shared/images/icon/favicon_512x512px.webp"  class="product-logo">
                     <h3 class="product-name">ВТБ</h3>
                     <div class="product-payout">500 ₽</div>
                     <p class="product-description">Мультикарта • Кэшбэк у партнеров</p>
-                    <a href="https://clck.ru/3MAKUJ"  target="_blank" class="action-btn" onclick="sendToTelegram('ВТБ')">Оформить <i class="fas fa-arrow-right"></i></a>
+                    <a href="https://clck.ru/3MAKUJ"  class="action-btn" target="_blank" onclick="sendToTelegram('ВТБ')">Оформить <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
 
-        <!-- Дебетовые 18+ -->
         <div id="debit-18" class="products-container">
             <div class="products-grid">
                 <div class="product-card">
@@ -508,68 +561,19 @@
                     <h3 class="product-name">Совкомбанк</h3>
                     <div class="product-payout">500 ₽</div>
                     <p class="product-description">Халва • Рассрочка 0% • Кэшбэк</p>
-                    <a href="https://clck.ru/3MGBrb"  target="_blank" class="action-btn" onclick="sendToTelegram('Совкомбанк')">Оформить <i class="fas fa-arrow-right"></i></a>
+                    <a href="https://clck.ru/3MGBrb"  class="action-btn" target="_blank" onclick="sendToTelegram('Совкомбанк')">Оформить <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/a/102122.png"  class="product-logo">
                     <h3 class="product-name">АК Барс</h3>
                     <div class="product-payout">500 ₽</div>
                     <p class="product-description">Кэшбэк у партнеров • Бонусы за платежи</p>
-                    <a href="https://clck.ru/3MFz7q"  target="_blank" class="action-btn" onclick="sendToTelegram('АК Барс')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/4/101906.jpg"  class="product-logo">
-                    <h3 class="product-name">Фора-Банк</h3>
-                    <div class="product-payout">500 ₽</div>
-                    <p class="product-description">Переводы клиентам ВТБ – без комиссии</p>
-                    <a href="https://clck.ru/3MFzA5"  target="_blank" class="action-btn" onclick="sendToTelegram('Фора-Банк')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/7/103229.png"  class="product-logo">
-                    <h3 class="product-name">ВТБ Платежный стикер</h3>
-                    <div class="product-payout">500 ₽</div>
-                    <p class="product-description">Переводы клиентам ВТБ – без комиссии</p>
-                    <a href="https://clck.ru/3M8qVD"  target="_blank" class="action-btn" onclick="sendToTelegram('ВТБ Платежный стикер')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/0/103216.png"  class="product-logo">
-                    <h3 class="product-name">МТС Деньги</h3>
-                    <div class="product-payout">500 ₽</div>
-                    <p class="product-description">Кэшбэк у партнеров • Бонусы за платежи</p>
-                    <a href="https://clck.ru/3M8hjP"  target="_blank" class="action-btn" onclick="sendToTelegram('МТС Деньги')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/3/102931.png"  class="product-logo">
-                    <h3 class="product-name">Т-Банк</h3>
-                    <div class="product-payout">500 ₽</div>
-                    <p class="product-description">Выдача карты</p>
-                    <a href="https://clck.ru/3M8hjn"  target="_blank" class="action-btn" onclick="sendToTelegram('Т-Банк')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/7/103229.png"  class="product-logo">
-                    <h3 class="product-name">ВТБ</h3>
-                    <div class="product-payout">500 ₽</div>
-                    <p class="product-description">Мультикарта • Кэшбэк у партнеров</p>
-                    <a href="https://clck.ru/3M8hmw"  target="_blank" class="action-btn" onclick="sendToTelegram('ВТБ')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/e/103415.png"  class="product-logo">
-                    <h3 class="product-name">УБРиР</h3>
-                    <div class="product-payout">500 ₽</div>
-                    <p class="product-description">Выгодные ставки • Кэшбэк за покупки</p>
-                    <a href="https://clck.ru/3MJMBT"  target="_blank" class="action-btn" onclick="sendToTelegram('УБРиР')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/a/101872.png"  class="product-logo">
-                    <h3 class="product-name">МТС Банк</h3>
-                    <div class="product-payout">200 ₽</div>
-                    <p class="product-description">Повышенный кэшбэк • Льготный кредит</p>
-                    <a href="https://clck.ru/3M8hni"  target="_blank" class="action-btn" onclick="sendToTelegram('МТС Банк')">Оформить <i class="fas fa-arrow-right"></i></a>
+                    <a href="https://clck.ru/3MFz7q"  class="action-btn" target="_blank" onclick="sendToTelegram('АК Барс')">Оформить <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
 
-        <!-- Кредитные 18+ -->
+        <!-- Кредитные -->
         <div id="credit-18" class="products-container">
             <div class="products-grid">
                 <div class="product-card">
@@ -577,33 +581,19 @@
                     <h3 class="product-name">Халва</h3>
                     <div class="product-payout">1000 ₽</div>
                     <p class="product-description">Карта рассрочки • 0% на покупки</p>
-                    <a href="https://clck.ru/3M8jho"  target="_blank" class="action-btn" onclick="sendToTelegram('Халва')">Оформить <i class="fas fa-arrow-right"></i></a>
+                    <a href="https://clck.ru/3M8jho"  class="action-btn" target="_blank" onclick="sendToTelegram('Халва')">Оформить <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/6/100597.png"  class="product-logo">
                     <h3 class="product-name">Уралсиб</h3>
                     <div class="product-payout">1000 ₽</div>
                     <p class="product-description">Кредитная карта '120 дней'</p>
-                    <a href="https://clck.ru/3M8hoo"  target="_blank" class="action-btn" onclick="sendToTelegram('Уралсиб')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/7/102533.png"  class="product-logo">
-                    <h3 class="product-name">А-Деньги</h3>
-                    <div class="product-payout">1000 ₽</div>
-                    <p class="product-description">Карта рассрочки • 0% на покупки</p>
-                    <a href="https://clck.ru/3M8hp8"  target="_blank" class="action-btn" onclick="sendToTelegram('А-Деньги')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/2/101795.png"  class="product-logo">
-                    <h3 class="product-name">Сбербанк</h3>
-                    <div class="product-payout">1500 ₽</div>
-                    <p class="product-description">Карта рассрочки • 0% на покупки</p>
-                    <a href="https://clck.ru/3M8hq4"  target="_blank" class="action-btn" onclick="sendToTelegram('Сбербанк')">Оформить <i class="fas fa-arrow-right"></i></a>
+                    <a href="https://clck.ru/3M8hoo"  class="action-btn" target="_blank" onclick="sendToTelegram('Уралсиб')">Оформить <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
 
-        <!-- МФО 18+ -->
+        <!-- МФО -->
         <div id="mfo-18" class="products-container">
             <div class="products-grid">
                 <div class="product-card">
@@ -611,173 +601,19 @@
                     <h3 class="product-name">Умные Наличные</h3>
                     <div class="product-payout">1500 ₽</div>
                     <p class="product-description">Первый займ под 0%</p>
-                    <a href="https://clck.ru/3MFy6Y"  target="_blank" class="action-btn" onclick="sendToTelegram('Умные Наличные')">Оформить <i class="fas fa-arrow-right"></i></a>
+                    <a href="https://clck.ru/3MFy6Y"  class="action-btn" target="_blank" onclick="sendToTelegram('Умные Наличные')">Оформить <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/c/103177.png"  class="product-logo">
                     <h3 class="product-name">Займер</h3>
                     <div class="product-payout">1000 ₽</div>
                     <p class="product-description">Первый займ под 0%</p>
-                    <a href="https://clck.ru/3M8htV"  target="_blank" class="action-btn" onclick="sendToTelegram('Займер')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/2/103233.png"  class="product-logo">
-                    <h3 class="product-name">ЗаёмРу</h3>
-                    <div class="product-payout">1000 ₽</div>
-                    <p class="product-description">Займ за 5 минут</p>
-                    <a href="https://clck.ru/3M8jKw"  target="_blank" class="action-btn" onclick="sendToTelegram('ЗаёмРу')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/9/99627.jpg"  class="product-logo">
-                    <h3 class="product-name">Creditter</h3>
-                    <div class="product-payout">1000 ₽</div>
-                    <p class="product-description">Первый займ под 0%</p>
-                    <a href="https://clck.ru/3MFxee"  target="_blank" class="action-btn" onclick="sendToTelegram('Creditter')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/a/101858.png"  class="product-logo">
-                    <h3 class="product-name">Max.Credit</h3>
-                    <div class="product-payout">1000 ₽</div>
-                    <p class="product-description">Займы на карту онлайн</p>
-                    <a href="https://clck.ru/3MFxkg"  target="_blank" class="action-btn" onclick="sendToTelegram('Max.Credit')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/5/27070.png"  class="product-logo">
-                    <h3 class="product-name">Микроклад</h3>
-                    <div class="product-payout">1000 ₽</div>
-                    <p class="product-description">Первый займ под 0%</p>
-                    <a href="https://clck.ru/3MFy9d"  target="_blank" class="action-btn" onclick="sendToTelegram('Микроклад')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/3/99359.png"  class="product-logo">
-                    <h3 class="product-name">Zaymingo</h3>
-                    <div class="product-payout">1000 ₽</div>
-                    <p class="product-description">Первый займ под 0%</p>
-                    <a href="https://clck.ru/3MFyDG"  target="_blank" class="action-btn" onclick="sendToTelegram('Zaymingo')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/0/72620.png"  class="product-logo">
-                    <h3 class="product-name">ФИНМОЛЛ</h3>
-                    <div class="product-payout">3000 ₽</div>
-                    <p class="product-description">ВАЖНО: выплата идет от выдачи от 8000 ₽!</p>
-                    <a href="https://clck.ru/3MFxuA"  target="_blank" class="action-btn" onclick="sendToTelegram('ФИНМОЛЛ')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/f/80620.png"  class="product-logo">
-                    <h3 class="product-name">Деньги на дом</h3>
-                    <div class="product-payout">1000 ₽</div>
-                    <p class="product-description">Первый займ под 0%</p>
-                    <a href="https://clck.ru/3MFxxr"  target="_blank" class="action-btn" onclick="sendToTelegram('Деньги на дом')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/d/101773.png"  class="product-logo">
-                    <h3 class="product-name">Срочноденьги</h3>
-                    <div class="product-payout">1000 ₽</div>
-                    <p class="product-description">Первый займ под 0%</p>
-                    <a href="https://clck.ru/3MFxgd"  target="_blank" class="action-btn" onclick="sendToTelegram('Срочноденьги')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/f/103144.png"  class="product-logo">
-                    <h3 class="product-name">ВД Платинум</h3>
-                    <div class="product-payout">1000 ₽</div>
-                    <p class="product-description">Займы на карту онлайн</p>
-                    <a href="https://clck.ru/3M8hye"  target="_blank" class="action-btn" onclick="sendToTelegram('ВД Платинум')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/7/101811.png"  class="product-logo">
-                    <h3 class="product-name">Быстроденьги</h3>
-                    <div class="product-payout">1000 ₽</div>
-                    <p class="product-description">Займы на карту онлайн</p>
-                    <a href="https://clck.ru/3M8ieJ"  target="_blank" class="action-btn" onclick="sendToTelegram('Быстроденьги')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/2/103424.png"  class="product-logo">
-                    <h3 class="product-name">Кекас</h3>
-                    <div class="product-payout">1000 ₽</div>
-                    <p class="product-description">Первый займ под 0%</p>
-                    <a href="https://clck.ru/3M8ijP"  target="_blank" class="action-btn" onclick="sendToTelegram('Кекас')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/2/102869.png"  class="product-logo">
-                    <h3 class="product-name">МедиумСкор</h3>
-                    <div class="product-payout">1000 ₽</div>
-                    <p class="product-description">Первый займ под 0%</p>
-                    <a href="https://clck.ru/3MFyHT"  target="_blank" class="action-btn" onclick="sendToTelegram('МедиумСкор')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/e/103053.png"  class="product-logo">
-                    <h3 class="product-name">Рокетмэн</h3>
-                    <div class="product-payout">1000 ₽</div>
-                    <p class="product-description">Займы на карту онлайн</p>
-                    <a href="https://clck.ru/3M8im7"  target="_blank" class="action-btn" onclick="sendToTelegram('Рокетмэн')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/9/102906.png"  class="product-logo">
-                    <h3 class="product-name">Займ Мобайл</h3>
-                    <div class="product-payout">1000 ₽</div>
-                    <p class="product-description">Займы на карту онлайн</p>
-                    <a href="https://clck.ru/3M8ioe"  target="_blank" class="action-btn" onclick="sendToTelegram('Займ Мобайл')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/c/99317.png"  class="product-logo">
-                    <h3 class="product-name">VIVA деньги</h3>
-                    <div class="product-payout">1000 ₽</div>
-                    <p class="product-description">Займы на карту онлайн</p>
-                    <a href="https://clck.ru/3MFxmM"  target="_blank" class="action-btn" onclick="sendToTelegram('VIVA деньги')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/a/100181.png"  class="product-logo">
-                    <h3 class="product-name">Krediska</h3>
-                    <div class="product-payout">1000 ₽</div>
-                    <p class="product-description">Займы на карту онлайн</p>
-                    <a href="https://clck.ru/3M8jGq"  target="_blank" class="action-btn" onclick="sendToTelegram('Krediska')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/9/102821.png"  class="product-logo">
-                    <h3 class="product-name">БериБеру</h3>
-                    <div class="product-payout">1000 ₽</div>
-                    <p class="product-description">Займы на карту онлайн</p>
-                    <a href="https://clck.ru/3M8isB"  target="_blank" class="action-btn" onclick="sendToTelegram('БериБеру')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/3/102576.png"  class="product-logo">
-                    <h3 class="product-name">Ваш кредит</h3>
-                    <div class="product-payout">1000 ₽</div>
-                    <p class="product-description">Займы на карту онлайн</p>
-                    <a href="https://clck.ru/3MFxn4"  target="_blank" class="action-btn" onclick="sendToTelegram('Ваш кредит')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/c/103390.png"  class="product-logo">
-                    <h3 class="product-name">Эквазайм</h3>
-                    <div class="product-payout">500 ₽</div>
-                    <p class="product-description">Займы на карту онлайн</p>
-                    <a href="https://clck.ru/3M8iwS"  target="_blank" class="action-btn" onclick="sendToTelegram('Эквазайм')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/f/103397.png"  class="product-logo">
-                    <h3 class="product-name">Занимательные Финансы</h3>
-                    <div class="product-payout">500 ₽</div>
-                    <p class="product-description">Займы на карту онлайн</p>
-                    <a href="https://clck.ru/3M8izE"  target="_blank" class="action-btn" onclick="sendToTelegram('Занимательные Финансы')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/6/102578.png"  class="product-logo">
-                    <h3 class="product-name">Деньга</h3>
-                    <div class="product-payout">500 ₽</div>
-                    <p class="product-description">Займы на карту онлайн</p>
-                    <a href="https://clck.ru/3M8j2r"  target="_blank" class="action-btn" onclick="sendToTelegram('Деньга')">Оформить <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/f/103167.png"  class="product-logo">
-                    <h3 class="product-name">Деньги ОК</h3>
-                    <div class="product-payout">500 ₽</div>
-                    <p class="product-description">Займы на карту онлайн</p>
-                    <a href="https://clck.ru/3M8j6D"  target="_blank" class="action-btn" onclick="sendToTelegram('Деньги ОК')">Оформить <i class="fas fa-arrow-right"></i></a>
+                    <a href="https://clck.ru/3M8htV"  class="action-btn" target="_blank" onclick="sendToTelegram('Займер')">Оформить <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
 
-        <!-- РКО 18+ -->
+        <!-- РКО -->
         <div id="rko-18" class="products-container">
             <div class="products-grid">
                 <div class="product-card">
@@ -785,42 +621,14 @@
                     <h3 class="product-name">УРАЛСИБ - РКО</h3>
                     <div class="product-payout">3000 ₽</div>
                     <p class="product-description">Бесплатное открытие счета</p>
-                    <a href="https://clck.ru/3MFzYd"  target="_blank" class="action-btn" onclick="sendToTelegram('УРАЛСИБ - РКО')">Открыть <i class="fas fa-arrow-right"></i></a>
+                    <a href="https://clck.ru/3MFzYd"  class="action-btn" target="_blank" onclick="sendToTelegram('УРАЛСИБ - РКО')">Открыть <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="product-card">
                     <img src="https://my-cache.s3-cdn.com/offers/thumbs/1/102846.png"  class="product-logo">
                     <h3 class="product-name">Ак Барс - РКО</h3>
                     <div class="product-payout">2500 ₽</div>
                     <p class="product-description">Бесплатное открытие счета</p>
-                    <a href="https://clck.ru/3M8jDP"  target="_blank" class="action-btn" onclick="sendToTelegram('Ак Барс - РКО')">Открыть <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/0/99461.png"  class="product-logo">
-                    <h3 class="product-name">ЛОКО-БАНК - РКО</h3>
-                    <div class="product-payout">2000 ₽</div>
-                    <p class="product-description">Бесплатное открытие счета</p>
-                    <a href="https://clck.ru/3MFzdB"  target="_blank" class="action-btn" onclick="sendToTelegram('ЛОКО-БАНК')">Открыть <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://agents.pampadu.ru/api/file/ViewFile?type=1&name=a7b59fcc-bd82-4179-af2b-4770945ec4ed.png" class="product-logo">
-                    <h3 class="product-name">Озон Банк</h3>
-                    <div class="product-payout">650 ₽</div>
-                    <p class="product-description">Расчетный счет для бизнеса</p>
-                    <a href="https://clck.ru/3M8jFX" target="_blank" class="action-btn" onclick="sendToTelegram('Озон Банк')">Открыть <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/3/102386.png" class="product-logo">
-                    <h3 class="product-name">Альфа-Банк - РКО</h3>
-                    <div class="product-payout">1500 ₽</div>
-                    <p class="product-description">Бесплатное открытие счета</p>
-                    <a href="https://clck.ru/3MFzeR" target="_blank" class="action-btn" onclick="sendToTelegram('Альфа-Банк')">Открыть <i class="fas fa-arrow-right"></i></a>
-                </div>
-                <div class="product-card">
-                    <img src="https://my-cache.s3-cdn.com/offers/thumbs/9/100594.png" class="product-logo">
-                    <h3 class="product-name">Совкомбанк</h3>
-                    <div class="product-payout">1000 ₽</div>
-                    <p class="product-description">Обслуживание от 0 ₽</p>
-                    <a href="https://clck.ru/3M8jEz" target="_blank" class="action-btn" onclick="sendToTelegram('Совкомбанк')">Открыть <i class="fas fa-arrow-right"></i></a>
+                    <a href="https://clck.ru/3M8jDP"  class="action-btn" target="_blank" onclick="sendToTelegram('Ак Барс - РКО')">Открыть <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
@@ -842,16 +650,28 @@
             products.forEach(p => container.appendChild(p));
         }
 
+        function updateSectionVisibility(age) {
+            document.querySelectorAll('.section-btn[data-section]').forEach(btn => {
+                if (age === '14' && ['credit', 'mfo', 'rko'].includes(btn.dataset.section)) {
+                    btn.style.display = 'none';
+                } else {
+                    btn.style.display = 'inline-block';
+                }
+            });
+        }
+
         function updateProductsDisplay(age, section) {
             document.querySelectorAll('.products-container').forEach(el => el.classList.remove('active'));
+
+            updateSectionVisibility(age);
 
             if(section === 'all') {
                 const allContainer = document.getElementById('all-products');
                 allContainer.classList.add('active');
 
                 ['debit', 'credit', 'mfo', 'rko'].forEach(type => {
-                    const source = document.getElementById(`${type}-${age}`);
                     const target = document.getElementById(`all-${type}`);
+                    const source = document.getElementById(`${type}-${age}`);
                     target.innerHTML = '';
                     const cards = source.querySelectorAll('.product-card');
                     cards.forEach(card => {
@@ -859,6 +679,7 @@
                         target.appendChild(clone);
                     });
                     sortProducts(target);
+                    document.getElementById(`${type}-title`).querySelector('span').textContent = target.querySelectorAll('.product-card').length;
                 });
 
             } else {
@@ -866,18 +687,29 @@
                 sortProducts(document.getElementById(`${section}-${age}`));
             }
 
-            if(currentSearchQuery) searchProducts(currentSearchQuery);
+            // Обновляем поиск после переключения
+            if(currentSearchQuery) {
+                searchProducts(currentSearchQuery);
+            }
         }
 
         const searchProducts = debounce((query) => {
             currentSearchQuery = query.toLowerCase();
-            let found = false;
+            document.querySelector('.no-results').style.display = 'none';
+
             document.querySelectorAll('.products-container.active .product-card').forEach(card => {
                 const name = card.querySelector('.product-name').textContent.toLowerCase();
                 card.style.display = name.includes(currentSearchQuery) ? 'block' : 'none';
-                if(name.includes(currentSearchQuery)) found = true;
             });
-            document.querySelector('.no-results').style.display = found ? 'none' : 'block';
+
+            document.querySelectorAll('.products-container:not(.active)').forEach(container => {
+                container.querySelectorAll('.product-card').forEach(card => {
+                    card.style.display = 'block';
+                });
+            });
+
+            const foundCards = document.querySelectorAll('.products-container.active .product-card[style*="display: block"]');
+            document.querySelector('.no-results').style.display = foundCards.length === 0 && currentSearchQuery ? 'block' : 'none';
         }, 300);
 
         function handleAuth() {
@@ -925,15 +757,15 @@
         }
 
         function showHistory() {
-            const modal = document.getElementById('historyModal');
             const list = document.getElementById('historyList');
-            list.innerHTML = currentUser.history.map(i => `
+            list.innerHTML = currentUser.history.map(item => `
                 <div class="history-item">
-                    <strong>${i.date}</strong><br>
-                    Категория: ${i.category}<br>
-                    Продукт: ${i.product}
-                </div>`).join('');
-            modal.style.display = 'block';
+                    <strong>${item.date}</strong><br>
+                    Категория: ${item.category}<br>
+                    Продукт: ${item.product}
+                </div>
+            `).join('');
+            document.getElementById('historyModal').style.display = 'block';
         }
 
         function validateEmail(email) {
@@ -948,18 +780,20 @@
                         <span>👤 ${currentUser.email}</span>
                         <button onclick="showHistory()" class="filter-btn">История</button>
                         <button onclick="logout()" class="filter-btn">Выйти</button>
-                    </div>`;
+                    </div>
+                `;
             } else {
                 authButtons.innerHTML = `
                     <button onclick="document.getElementById('authModal').style.display='block'" class="filter-btn">Войти</button>
-                    <button onclick="document.getElementById('authModal').style.display='block'" class="filter-btn">Регистрация</button>`;
+                    <button onclick="document.getElementById('authModal').style.display='block'" class="filter-btn">Регистрация</button>
+                `;
             }
         }
 
         function logout() {
             currentUser = null;
             updateAuthUI();
-            alert('Вы вышли');
+            alert('Вы вышли из системы!');
         }
 
         function closeAuthModal() {
@@ -974,14 +808,7 @@
             document.getElementById('productModal').style.display = 'none';
         }
 
-        function sendToTelegram(productName) {
-            if(currentUser) {
-                const category = document.querySelector('.section-btn.active').dataset.section;
-                addToHistory(productName, category);
-            }
-        }
-
-        function debounce(func, timeout = 300) {
+        function debounce(func, timeout = 300){
             let timer;
             return (...args) => {
                 clearTimeout(timer);
@@ -996,9 +823,9 @@
                 video.play();
             });
 
-            document.querySelectorAll('.age-btn').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    document.querySelectorAll('.age-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.age-btn').forEach(b => {
+                b.addEventListener('click', function() {
+                    document.querySelectorAll('.age-btn').forEach(btn => btn.classList.remove('active'));
                     this.classList.add('active');
                     const age = this.dataset.age;
                     const section = document.querySelector('.section-btn.active').dataset.section;
@@ -1007,7 +834,7 @@
             });
 
             document.querySelectorAll('.section-btn').forEach(btn => {
-                btn.addEventListener('click', function () {
+                btn.addEventListener('click', function() {
                     document.querySelectorAll('.section-btn').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     const age = document.querySelector('.age-btn.active').dataset.age;
@@ -1015,15 +842,17 @@
                 });
             });
 
-            document.querySelector('.search-input').addEventListener('input', e => searchProducts(e.target.value));
+            document.querySelector('.search-input').addEventListener('input', e => {
+                searchProducts(e.target.value);
+            });
 
             document.querySelectorAll('.action-btn').forEach(btn => {
-                btn.addEventListener('click', function () {
+                btn.addEventListener('click', function(e) {
                     if(currentUser) {
-                        const card = this.closest('.product-card');
-                        const name = card.querySelector('.product-name').textContent;
+                        const productCard = this.closest('.product-card');
+                        const productName = productCard.querySelector('.product-name').textContent;
                         const category = document.querySelector('.section-btn.active').dataset.section;
-                        addToHistory(name, category);
+                        addToHistory(productName, category);
                     }
                 });
             });
